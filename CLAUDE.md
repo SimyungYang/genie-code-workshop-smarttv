@@ -36,25 +36,41 @@ Lakebase 미사용 시 제약사항 설명 및 git clone부터 상세 배포 과
 
 ### Section 4: LG Smart TV 시나리오 End-to-End 핸즈온
 - **참조**: https://simyungyang.gitbook.io/databricks-enablement-resources/hands-on-workshop/smart-tv-vibe
-- 가상 데이터 생성 (170만건+) → 데이터 파이프라인 → 분석 → ML → GenAI 에이전트
+- 가상 데이터 생성 (250만건, 17개 테이블) → 데이터 파이프라인 → 분석 → ML → GenAI 에이전트
 
 #### 워크로드 시나리오: LG Smart TV 데이터 플랫폼
 
-**데이터셋 (가상 데이터)**:
+**데이터셋 (가상 데이터 — 17개 테이블, 약 250만건)**:
 
-| 테이블 | 건수 | 설명 |
-|--------|------|------|
-| `bronze.devices` | 10,000 | TV 디바이스 마스터 (모델명, 지역, 패널 타입, OS 버전 등) |
-| `bronze.viewing_logs` | 500,000 | 채널/앱 시청 기록 (시청 시간, 장르, 해상도 등) |
-| `bronze.click_events` | 1,000,000 | 리모컨/UI 조작 이벤트 (메뉴 탐색, 앱 전환, 설정 변경 등) |
-| `bronze.ad_impressions` | 200,000 | 광고 노출/클릭/전환 데이터 |
+webOS TV 실제 텔레메트리 로그 체계(pmlogd, Luna Service API, rdxd)를 기반으로 설계.
+상세 가이드: [02-data-generation.md](section-4-smart-tv-handson/02-data-generation.md)
+
+| 카테고리 | 테이블 | 건수 | 설명 |
+|---------|--------|------|------|
+| Master | `bronze.devices` | 10,000 | TV 디바이스 마스터 (모델명, 패널, SoC, 지역 등) |
+| System | `bronze.system_boot_events` | 50,000 | 부팅/전원 상태 전환 이벤트 |
+| System | `bronze.resource_utilization` | 200,000 | CPU/메모리/GPU/온도 1분 간격 메트릭 |
+| System | `bronze.firmware_updates` | 15,000 | OTA 펌웨어 업데이트 시퀀스 |
+| Viewing | `bronze.viewing_logs` | 500,000 | 채널/앱 시청 기록 (장르, 해상도, HDR) |
+| Viewing | `bronze.app_launch_events` | 300,000 | SAM 앱 실행/종료 이벤트 |
+| Viewing | `bronze.input_switch_events` | 80,000 | HDMI 입력 전환 (CEC, ALLM, VRR) |
+| Network | `bronze.wifi_connection_events` | 100,000 | WiFi 연결/해제/인증 이벤트 |
+| Network | `bronze.streaming_buffer_events` | 150,000 | 스트리밍 버퍼/비트레이트 이벤트 |
+| Media | `bronze.media_playback_events` | 200,000 | 코덱/해상도/HDR/DRM 재생 로그 |
+| Ad | `bronze.acr_events` | 300,000 | ACR 자동 콘텐츠 인식 (Live Plus) |
+| Ad | `bronze.ad_impressions` | 200,000 | VAST 광고 노출/클릭/전환 퍼널 |
+| IoT | `bronze.thinq_device_events` | 50,000 | ThinQ 스마트홈 디바이스 연동 |
+| Voice | `bronze.voice_command_events` | 80,000 | 음성 명령 인식/처리 이벤트 |
+| App | `bronze.app_lifecycle_events` | 100,000 | 앱 설치/삭제/업데이트 |
+| Display | `bronze.panel_diagnostics` | 30,000 | OLED 패널 케어/화질 진단 |
+| Error | `bronze.error_crash_events` | 40,000 | 크래시/ANR/OOM/미디어 에러 |
 
 **End-to-End 파이프라인 구성**:
 
 | 순서 | 모듈 | 핵심 기능 | 소요시간 |
 |------|------|---------|---------|
 | 1 | 환경 설정 (UC Catalog/Schema/Volume) | Unity Catalog | ~1분 |
-| 2 | 가상 데이터 생성 (170만건) | PySpark, Delta Lake | ~10분 |
+| 2 | 가상 데이터 생성 (250만건, 17테이블) | PySpark, Faker, Delta Lake | ~15분 |
 | 3 | Bronze→Silver→Gold 수동 변환 | CTAS, SQL, Medallion Architecture | ~30분 |
 | 4 | SDP 파이프라인 자동화 | Lakeflow Declarative Pipelines, Expectations | ~30분 |
 | 5 | AI/BI 대시보드 & Genie Space | Dashboard, Genie Space | ~1시간 |
@@ -86,44 +102,46 @@ Unity Catalog, Delta Lake, SDP (Lakeflow), Auto Loader, Structured Streaming, AI
 5. **실시간 모니터링**: 라이브 방송 시청률, 실시간 광고 성과 트래킹
 6. **고객 서비스 에이전트**: GenAI 기반 Smart TV 사용 가이드, 트러블슈팅 챗봇
 
-### Gold 테이블 예시 (분석/서빙용)
+### Gold 테이블 (10개)
 
-- `gold.daily_viewing_summary`: 일별/모델별/지역별 시청 통계
-- `gold.content_recommendation_features`: ML 추천 모델 피처 테이블
-- `gold.ad_campaign_performance`: 광고 캠페인별 성과 집계
-- `gold.device_health_metrics`: 디바이스 건강 지표 (이상 탐지용)
-- `gold.user_engagement_360`: 사용자 참여도 360도 뷰
+| Gold 테이블 | 소비자 | 설명 |
+|------------|--------|------|
+| `gold.daily_viewing_summary` | 대시보드, Genie | 디바이스별 일별 시청 통계 |
+| `gold.content_popularity` | 대시보드, Genie | 프로그램별 인기도, 시청자 수 |
+| `gold.hourly_engagement` | 대시보드 | 시간대별 활성 사용자 |
+| `gold.ad_campaign_kpi` | 대시보드, Genie | 광고 캠페인 KPI (CTR, VCR, eCPM) |
+| `gold.device_health_score` | 대시보드, ML | 디바이스 건강 점수 (0~100, A~F 등급) |
+| `gold.streaming_qoe` | 대시보드, Genie | 스트리밍 QoE 지표 |
+| `gold.voice_usage_analytics` | 대시보드 | 음성 사용 분석 |
+| `gold.iot_ecosystem_stats` | 대시보드, Genie | IoT 생태계 통계 |
+| `gold.error_rate_by_firmware` | 대시보드, Genie | 펌웨어별 에러율 |
+| `gold.user_engagement_360` | ML, 에이전트 | 사용자 360도 프로파일 |
 
-## 파일 구조 (예정)
+### 에이전트 아키텍처
 
 ```
-├── CLAUDE.md                          # 이 파일
-├── README.md                          # GitBook 메인 페이지
-├── SUMMARY.md                         # GitBook 목차
-├── section-1-vibe-coding-intro/       # Section 1: 리소스 소개
-│   ├── genie-code.md
-│   ├── ai-dev-kit.md
-│   └── ai-builder-app.md
-├── section-2-ai-builder-app/          # Section 2: App 배포 핸즈온
-│   ├── prerequisites.md
-│   ├── deploy-step-by-step.md
-│   └── lakebase-constraints.md
-├── section-3-genie-code-aidevkit/     # Section 3: Genie Code + AI Dev Kit
-│   ├── architecture.md
-│   ├── setup-guide.md
-│   └── tool-profiles.md
-├── section-4-smart-tv-handson/        # Section 4: E2E 핸즈온
-│   ├── 01-setup.md
-│   ├── 02-data-generation.md
-│   ├── 03-medallion-pipeline.md
-│   ├── 04-sdp-pipeline.md
-│   ├── 05-dashboard-genie.md
-│   ├── 06-event-generator.md
-│   ├── 07-streaming.md
-│   ├── 08-ml-recommendation.md
-│   ├── 09-anomaly-detection.md
-│   └── 10-agent-bricks.md
-└── notebooks/                         # 실습 노트북
+Supervisor Agent (LG Smart TV AI 어시스턴트)
+├── Knowledge Assistant: 100개 FAQ, RAG 기반 사용 가이드/트러블슈팅
+└── Genie Agent: 3개 Genie Space 연동 데이터 분석
+    ├── 시청 분석 Genie Space (15개 샘플 질문)
+    ├── 광고 성과 Genie Space (5개 샘플 질문)
+    └── 디바이스 운영 Genie Space
+```
+
+## 파일 구조
+
+```
+├── CLAUDE.md                            # 이 파일
+├── section-4-smart-tv-handson/          # Section 4: E2E 핸즈온
+│   ├── 02-data-generation.md            # ✅ 250만건 가상 데이터 (17 테이블)
+│   ├── 03-sdp-pipeline.md               # ✅ SDP 파이프라인 + 데이터 품질
+│   ├── 04-dashboard-genie.md            # ✅ 대시보드 3개 + Genie Space 3개 + 정확도 고도화
+│   └── 05-agent-development.md          # ✅ KA + Genie Agent + Supervisor + Lakebase
+├── section-1-vibe-coding-intro/         # Section 1: 리소스 소개 (미작성)
+├── section-2-ai-builder-app/            # Section 2: App 배포 핸즈온 (미작성)
+├── section-3-genie-code-aidevkit/       # Section 3: Genie Code + AI Dev Kit (미작성)
+├── README.md                            # GitBook 메인 페이지 (미작성)
+└── SUMMARY.md                           # GitBook 목차 (미작성)
 ```
 
 ## 참고 리소스
