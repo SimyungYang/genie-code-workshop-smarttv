@@ -105,6 +105,8 @@ lge_smart_tv.bronze의 모든 테이블에 대해 데이터 품질 리포트를 
 | `silver.error_events` | error_crash_events | 중복 제거, severity 표준화 |
 | `silver.firmware_history` | firmware_updates | OTA 시퀀스 완성도 검증, 실패 건 flag |
 
+> 💡 **VAST(Video Ad Serving Template)란?** 디지털 광고 표준 프로토콜입니다. 광고 이벤트가 `AD_START` → `FIRST_QUARTILE` → `MIDPOINT` → `THIRD_QUARTILE` → `AD_COMPLETE` 순서로 발생하며, 이 순서가 역전된 레코드는 네트워크 재전송으로 인한 데이터 오류입니다.
+
 ### Genie Code 프롬프트: Silver 테이블 생성 (핵심 5개)
 
 > 전체 15개를 한번에 하면 너무 길어지므로, 핵심 테이블 5개를 먼저 만들고 나머지는 동일 패턴으로 확장합니다.

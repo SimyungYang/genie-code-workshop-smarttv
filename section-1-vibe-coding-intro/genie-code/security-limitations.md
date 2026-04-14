@@ -243,3 +243,9 @@ Genie Code에는 다층 보안 필터가 적용됩니다:
 5. "rate limit" → 잠시 대기 (1분) 후 재시도
 6. 그 외 → Genie Code에 "이 에러를 진단해줘" 요청
 ```
+
+---
+
+## 다음 단계
+
+- **[내장 기능 둘러보기](built-in-features.md)** — Skills, MCP, 슬래시 명령어 등 Genie Code의 숨은 기능을 확인합니다.

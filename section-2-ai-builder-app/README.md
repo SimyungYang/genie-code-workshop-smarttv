@@ -58,6 +58,8 @@ databricks auth login --host https://<your-workspace-url>
 databricks current-user me
 ```
 
+> **워크스페이스 URL 형식**: `https://<workspace-id>.azuredatabricks.net` (Azure) 또는 `https://<workspace-id>.cloud.databricks.com` (AWS). 브라우저에서 Databricks 워크스페이스에 접속했을 때 주소창에 표시되는 URL을 그대로 사용하세요.
+
 > 📸 **[스크린샷]**: `databricks current-user me` 실행 결과 — 사용자 정보 확인
 
 ### jq 설치 (JSON 파싱용)
@@ -269,4 +271,4 @@ watch databricks apps get mcp-ai-dev-kit
 
 ## 다음 단계
 
-앱 배포가 완료되면 **[Section 3: Genie Code에 AI Dev Kit 구성하기](../section-3-ai-tools-setup/genie-code-aidevkit.md)**로 이동하여 Genie Code와 연결합니다.
+앱 배포가 완료되면 **[Section 3: AI 도구 환경 구성](../section-3-ai-tools-setup/README.md)**으로 이동하여 AI Gateway → Claude Code → AI Dev Kit 순서로 구성합니다.

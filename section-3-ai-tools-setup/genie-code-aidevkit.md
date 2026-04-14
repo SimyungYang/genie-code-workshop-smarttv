@@ -185,6 +185,10 @@ curl -X PATCH "$HOST/api/2.0/permissions/genie/$SPACE_ID" \
   }]}"
 ```
 
+> **`<genie_space_id>` 찾는 방법**: Genie Space URL에서 `/genie/spaces/` 뒤의 문자열이 ID입니다. 또는 Genie Code에 `현재 워크스페이스의 Genie Space 목록과 각 ID를 알려줘`라고 물어보세요.
+>
+> **참고**: 이 단계는 [Section 4-04](../section-4-smart-tv-handson/04-dashboard-genie.md)에서 Genie Space를 생성한 후에 실행하세요.
+
 ---
 
 ## Step 5: 테스트
