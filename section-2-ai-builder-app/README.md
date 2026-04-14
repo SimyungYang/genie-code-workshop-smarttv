@@ -19,6 +19,24 @@ AI Dev Kit의 MCP 서버를 **Databricks App**으로 배포하면, Genie Code에
 
 이 핸즈온에서는 git clone부터 앱 배포, 권한 설정까지 전 과정을 다룹니다.
 
+### 전체 흐름 미리보기
+
+```
+Step 1: 사전 준비 (CLI 설치 + 인증)
+  ↓
+Step 2: AI Dev Kit 소스 코드 다운로드 (git clone)
+  ↓
+Step 3: Databricks에 앱 생성 (mcp-ai-dev-kit)
+  ↓
+Step 4: 소스 코드를 Workspace에 업로드 → 앱 배포
+  ↓
+Step 5: 앱의 서비스 프린시펄에 권한 부여
+  ↓
+Step 6: 배포 성공 확인
+```
+
+> ⚠️ **모든 명령어는 로컬 터미널(macOS Terminal, iTerm, VS Code 터미널 등)에서 실행합니다.** Databricks 노트북이 아닙니다.
+
 ---
 
 ## Lakebase 미사용 시 제약사항
@@ -36,20 +54,35 @@ AI Dev Kit의 MCP 서버를 **Databricks App**으로 배포하면, Genie Code에
 
 ## Step 1: 사전 준비
 
-### Databricks CLI 설치 확인
+### 필수 도구 설치 확인
+
+아래 3가지 도구가 로컬 터미널에 설치되어 있어야 합니다:
 
 ```bash
+# 1) Git — 소스 코드 다운로드에 필요
+git --version
+# → "git version 2.x.x" 가 나오면 OK
+# 안 나오면: brew install git (macOS) 또는 https://git-scm.com/downloads
+
+# 2) Databricks CLI — 앱 배포에 필요
 databricks --version
+# → "Databricks CLI v0.x.x" 가 나오면 OK
+# 안 나오면 아래 중 하나로 설치:
 ```
 
-설치가 안 되어 있다면:
+Databricks CLI가 없다면:
 ```bash
-# macOS
+# 방법 1: Homebrew (macOS 권장)
 brew install databricks
 
-# pip (최신 Databricks SDK)
-pip install databricks-sdk
+# 방법 2: 공식 설치 스크립트
+curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+# 방법 3: pip
+pip install databricks-cli
 ```
+
+> 💡 `pip install databricks-sdk`는 Python SDK이며, CLI와 다릅니다. 터미널 명령어(`databricks apps create` 등)를 사용하려면 **Databricks CLI**가 필요합니다.
 
 ### 인증
 
@@ -74,14 +107,31 @@ jq --version
 
 ---
 
-## Step 2: 레포 클론
+## Step 2: AI Dev Kit 소스 코드 다운로드
+
+로컬 터미널에서 AI Dev Kit GitHub 레포지토리를 클론(복사)합니다:
 
 ```bash
+# 원하는 작업 디렉토리로 이동 (예: 홈 디렉토리)
+cd ~
+
+# AI Dev Kit 소스 코드 다운로드
 git clone https://github.com/databricks-solutions/ai-dev-kit.git
+
+# ⚠️ 중요: 반드시 클론한 디렉토리 안으로 이동
 cd ai-dev-kit
 ```
 
-> 📸 **[스크린샷]**: git clone 완료 후 디렉토리 구조
+> ⚠️ **`cd ai-dev-kit`을 반드시 실행하세요.** 이후 Step 4에서 `app/main.py`, `app/app.yaml` 등의 파일을 참조하는데, 현재 디렉토리가 `ai-dev-kit/`이 아니면 "파일을 찾을 수 없습니다" 에러가 발생합니다.
+
+클론 후 디렉토리 구조를 확인합니다:
+
+```bash
+ls app/
+# 기대 결과: app.yaml  main.py  requirements.txt (등)
+```
+
+> 📸 **[스크린샷]**: git clone 완료 → `ls app/` 결과 확인
 
 ---
 
@@ -100,26 +150,40 @@ databricks apps create mcp-ai-dev-kit \
 
 ## Step 4: 소스 코드 업로드 & 배포
 
+> **현재 디렉토리 확인**: 이 단계를 실행하기 전에 `pwd`를 실행하여 `ai-dev-kit` 디렉토리 안에 있는지 확인하세요.
+
+아래 스크립트를 **한 번에 복사하여 터미널에 붙여넣기**하면 됩니다:
+
 ```bash
 # 현재 사용자의 워크스페이스 경로 설정
 DBUSER=$(databricks current-user me | jq -r .userName)
 APP_PATH="/Workspace/Users/$DBUSER/mcp-ai-dev-kit-app"
+echo "배포 경로: $APP_PATH"
 
-# 디렉토리 생성
+# Workspace에 디렉토리 생성
 databricks workspace mkdirs "$APP_PATH"
 
-# 파일 업로드 (app.yaml, main.py, requirements.txt)
+# 3개 파일 업로드 (main.py, app.yaml, requirements.txt)
 for f in app/main.py app/app.yaml app/requirements.txt; do
+  echo "업로드 중: $f"
   databricks workspace import "$APP_PATH/$(basename $f)" \
     --file "$f" --format RAW --overwrite
 done
+echo "✅ 파일 업로드 완료"
 
-# 배포
+# 앱 배포 시작
 databricks apps deploy mcp-ai-dev-kit --source-code-path "$APP_PATH"
+echo "⏳ 배포 진행 중... 1~2분 소요됩니다."
+```
 
-# 상태 확인
+배포 후 상태를 확인합니다:
+
+```bash
+# 상태 확인 (RUNNING이 나올 때까지 반복)
 databricks apps get mcp-ai-dev-kit
 ```
+
+> **기대 결과**: `status`가 `RUNNING`이면 성공입니다. `DEPLOYING`이면 1~2분 더 기다린 후 다시 확인하세요. `FAILED`이면 [트러블슈팅](#트러블슈팅) 섹션을 참조하세요.
 
 > 📸 **[스크린샷]**: 배포 결과 — status: RUNNING 확인
 
@@ -153,16 +217,26 @@ databricks api patch /api/2.0/preview/scim/v2/ServicePrincipals/$SP_ID --json '{
 }'
 ```
 
-### 5-3. 카탈로그 권한 (SQL Warehouse에서 실행)
+### 5-3. 카탈로그 권한 부여
+
+> **이 SQL은 Databricks 노트북 또는 SQL Editor에서 실행합니다** (로컬 터미널이 아닙니다).
+> Databricks 왼쪽 사이드바 → **SQL Editor** 클릭 → 아래 SQL을 붙여넣고 실행하세요.
 
 ```sql
+-- <sp_client_id>를 위 5-1에서 확인한 Client ID로 교체
 GRANT ALL PRIVILEGES ON CATALOG lge_smart_tv TO `<sp_client_id>`;
 ```
 
+> 💡 **Client ID 확인**: 위 Step 5-1에서 출력된 `Client ID` 값을 `<sp_client_id>` 자리에 넣으세요.
+
 ### 5-4. SQL Warehouse 사용 권한
 
+> **`<your_warehouse_id>` 찾는 방법**: Databricks 왼쪽 사이드바 → **SQL Warehouses** → 사용할 웨어하우스 클릭 → URL 주소창에서 `/sql/warehouses/` 뒤의 문자열이 ID입니다.
+> 
+> 또는 터미널에서 `databricks warehouses list -o json | jq '.[].id'`로 확인할 수 있습니다.
+
 ```bash
-WH_ID="<your_warehouse_id>"
+WH_ID="<your_warehouse_id>"  # ← 위에서 확인한 Warehouse ID로 교체
 TOKEN=$(databricks auth token | jq -r .access_token)
 HOST=$(databricks auth env | jq -r .env.DATABRICKS_HOST)
 
