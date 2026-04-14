@@ -2,7 +2,7 @@
 
 * [워크샵 소개](README.md)
 
-## Section 1: Vibe Coding 리소스 소개
+## Section 1: Genie Code 완전 가이드
 
 * [Genie Code 완전 가이드](section-1-vibe-coding-intro/genie-code/README.md)
   * [Genie Code란?](section-1-vibe-coding-intro/genie-code/what-is-genie-code.md)
@@ -19,13 +19,13 @@
 
 * [AI Builder App 배포 핸즈온](section-2-ai-builder-app/README.md)
 
-## Section 2.5: AI Gateway — AI 도구 비용 관리
+## Section 3: AI 도구 환경 구성
 
-* [AI Gateway 가이드](section-2-ai-gateway/README.md)
-
-## Section 3: Genie Code + AI Dev Kit
-
-* [Genie Code에 AI Dev Kit 구성하기](section-3-genie-code-aidevkit/README.md)
+* [AI 도구 환경 구성 개요](section-3-ai-tools-setup/README.md)
+  * [AI Gateway — 비용 관리](section-3-ai-tools-setup/ai-gateway.md)
+  * [Claude Code 사용하기](section-3-ai-tools-setup/claude-code.md)
+  * [AI Dev Kit 설치 & 구성](section-3-ai-tools-setup/ai-dev-kit-setup.md)
+  * [Genie Code + AI Dev Kit 연결](section-3-ai-tools-setup/genie-code-aidevkit.md)
 
 ## Section 4: LG Smart TV E2E 핸즈온
 

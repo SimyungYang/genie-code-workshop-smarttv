@@ -14,36 +14,42 @@ LG Smart TV webOS 텔레메트리 데이터를 기반으로, 자연어 프롬프
 
 | 시간 | 섹션 | 내용 | 소요 |
 |------|------|------|------|
-| 09:30~10:00 | **Section 1** | Vibe Coding 리소스 소개 (Genie Code, AI Dev Kit, AI Builder App) | 30분 |
-| 10:00~10:30 | **Section 2** | AI Dev Kit MCP 서버 앱 배포 핸즈온 | 30분 |
-| 10:30~11:00 | **Section 3** | Genie Code에 AI Dev Kit 연결 + Skills 배포 | 30분 |
-| 11:00~11:10 | ☕ | 휴식 | 10분 |
-| 11:10~11:15 | **Section 4-01** | 환경 설정 (카탈로그/스키마) | 5분 |
-| 11:15~11:30 | **Section 4-02** | 가상 데이터 생성 (250만건) | 15분 |
-| 11:30~12:30 | **Section 4-03** | SDP 파이프라인 — 데이터 품질 + 증분 처리 | 1시간 |
+| 09:30~10:00 | **Section 1** | Genie Code 완전 가이드 — 프롬프트 잘 쓰는 법 | 30분 |
+| 10:00~10:30 | **Section 2** | AI Builder App 배포 핸즈온 | 30분 |
+| 10:30~11:30 | **Section 3** | AI Gateway(비용 관리) → Claude Code → AI Dev Kit → Genie Code 연결 | 1시간 |
+| 11:30~11:40 | ☕ | 휴식 | 10분 |
+| 11:40~11:45 | **Section 4-01** | 환경 설정 (카탈로그/스키마) | 5분 |
+| 11:45~12:00 | **Section 4-02** | 가상 데이터 생성 (250만건) | 15분 |
+| 12:00~12:30 | **Section 4-03** | SDP 파이프라인 — 데이터 품질 + 증분 처리 (전반) | 30분 |
 | 12:30~13:30 | 🍚 | 점심 | 1시간 |
-| 13:30~15:00 | **Section 4-04** | AI/BI 대시보드 & Genie Space + 정확도 고도화 | 1.5시간 |
-| 15:00~15:10 | ☕ | 휴식 | 10분 |
-| 15:10~17:10 | **Section 4-05** | GenAI 에이전트 개발 (KA + Genie + Supervisor) | 2시간 |
-| 17:10~17:30 | | Q&A 및 마무리 | 20분 |
+| 13:30~14:00 | **Section 4-03** | SDP 파이프라인 (후반) | 30분 |
+| 14:00~15:30 | **Section 4-04** | AI/BI 대시보드 & Genie Space + 정확도 고도화 | 1.5시간 |
+| 15:30~15:40 | ☕ | 휴식 | 10분 |
+| 15:40~17:40 | **Section 4-05** | GenAI 에이전트 개발 (KA + Genie + Supervisor) | 2시간 |
+| 17:40~18:00 | | Q&A 및 마무리 | 20분 |
 
 ---
 
 ## 워크샵 구성
 
-### Section 1: Databricks Vibe Coding 리소스 소개
+### Section 1: Genie Code 완전 가이드
 
-| 주제 | 내용 |
-|------|------|
-| [Genie Code 완전 가이드](section-1-vibe-coding-intro/genie-code/) | 프롬프트 잘 쓰는 법, 꿀팁 20가지, 템플릿 |
+[Genie Code 완전 가이드](section-1-vibe-coding-intro/genie-code/) — 프롬프트 5대 원칙, 꿀팁 20가지, 상황별 템플릿
 
-### Section 2: AI Dev Kit MCP 서버 배포
+### Section 2: AI Builder App 배포
 
 [AI Builder App 배포 핸즈온](section-2-ai-builder-app/) — git clone부터 앱 배포, 서비스 프린시펄 권한까지
 
-### Section 3: Genie Code에 AI Dev Kit 구성하기
+### Section 3: AI 도구 환경 구성
 
-[AI Dev Kit 구성 가이드](section-3-genie-code-aidevkit/) — MCP 서버 연결 → 20개 도구 제한 내 선택 → Skills 배포
+[AI 도구 환경 구성](section-3-ai-tools-setup/) — 비용 통제 → Claude Code 사용 → AI Dev Kit 설치 → Genie Code 연결
+
+| 단계 | 핵심 메시지 |
+|------|-----------|
+| [AI Gateway](section-3-ai-tools-setup/ai-gateway.md) | 비용을 통제하면서 AI 도구를 도입할 수 있다 |
+| [Claude Code](section-3-ai-tools-setup/claude-code.md) | 이 환경에서 Claude Code를 안전하게 쓸 수 있다 |
+| [AI Dev Kit 설치](section-3-ai-tools-setup/ai-dev-kit-setup.md) | MCP 서버 + Skills로 Databricks를 확장한다 |
+| [Genie Code 연결](section-3-ai-tools-setup/genie-code-aidevkit.md) | 노트북 안에서도 크로스 프로덕트 작업이 가능해진다 |
 
 ### Section 4: LG Smart TV E2E 핸즈온
 
