@@ -1,9 +1,9 @@
-# LGE MS사업본부 Vibe Coding 교육 가이드
+# Databricks Vibe Coding 워크샵 — LG Smart TV
 
 ## 프로젝트 개요
 
 - **교육 일시**: 2026년 4월 22일
-- **대상**: LG전자 MS(Media Solution)사업본부 인원
+- **대상**: LG전자
 - **주제**: Databricks 환경에서의 Vibe Coding 실습
 - **시나리오**: LG Smart TV 데이터 기반 End-to-End 데이터/AI 파이프라인 구축
 - **배포 형태**: GitHub 개인 프로필 Push → GitBook 연동으로 교육 가이드 제공
@@ -88,7 +88,7 @@ Unity Catalog, Delta Lake, SDP (Lakeflow), AI/BI Dashboard, AI/BI Genie, Vector 
 
 ## 시나리오 상세: LG Smart TV 비즈니스 컨텍스트
 
-### MS사업본부 관점의 핵심 유스케이스
+### 핵심 유스케이스
 
 1. **시청 행동 분석**: 채널/앱별 시청 패턴, 시간대별 사용량, 장르 선호도
 2. **광고 효과 측정**: 광고 노출→클릭→전환 퍼널 분석, CPM/CTR 최적화

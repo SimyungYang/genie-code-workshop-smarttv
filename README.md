@@ -1,6 +1,6 @@
-# LGE MS사업본부 Vibe Coding 워크샵
+# Databricks Vibe Coding 워크샵 — LG Smart TV
 
-> **교육 일시**: 2026년 4월 22일 | **대상**: LG전자 MS(Media Solution)사업본부
+> **교육 일시**: 2026년 4월 22일 | **대상**: LG전자
 
 Databricks 환경에서 **Genie Code**와 **AI Dev Kit**을 활용한 Vibe Coding 실습 워크샵입니다.
 
