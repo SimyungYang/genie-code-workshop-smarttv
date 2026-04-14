@@ -158,6 +158,16 @@ lge_smart_tv.bronze.devices 테이블이 잘 생성됐는지 확인해줘.
 
 > ✅ row 수가 10,000건이고, region 분포가 KR(30%) US(25%) EU(20%)에 가까우면 정상입니다.
 
+> 💡 **AI 결과에 도전하기**: 단순 확인에 만족하지 말고, Genie Code의 결과에 질문을 던져보세요:
+> ```
+> 방금 생성한 devices 테이블에서 product_line별 panel_type 분포가 
+> 내가 요청한 조건과 일치하는지 교차 검증해줘.
+> OLED_C/G는 WOLED/OLED_EX/MLA_OLED_EX 중 하나여야 하고,
+> QNED/NANO는 NanoCell, UHD는 IPS_LCD여야 해.
+> 불일치가 있으면 알려줘.
+> ```
+> 이렇게 **"조건대로 잘 만들어졌는지"** 검증하는 습관을 들이면, 이후 Silver/Gold 변환에서 데이터 품질 문제를 줄일 수 있습니다.
+
 ---
 
 ## 카테고리: System (시스템 로그)
