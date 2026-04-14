@@ -133,10 +133,28 @@ AI Dev Kit은 44개 도구를 제공하지만, Genie Code는 **전체 MCP 서버
 
 </details>
 
-> 💡 **꿀팁**: 작업 전에 Genie Code에게 물어보세요:
+> 💡 **꿀팁**: 어떤 도구를 켜야 할지 모르겠다면 Genie Code에게 물어보세요:
 > ```
 > SDP 파이프라인 생성을 위해 활성화하면 도움 될 MCP 도구를 알려줘
 > ```
+> Genie Code가 현재 활성화된 도구와 비교하여, 추가로 켜야 할 도구를 **필수/보조로 구분**해서 안내해줍니다.
+
+### 작업별 필수/보조 도구 매핑
+
+어떤 작업을 할 때 어떤 도구가 필요한지 빠르게 확인할 수 있습니다:
+
+| 작업 | 필수 도구 | 보조 도구 |
+|------|----------|----------|
+| **가상 데이터 생성 → Delta 저장** | `execute_sql` | `execute_code`, `manage_uc_objects` |
+| **SDP 파이프라인 생성** | `manage_pipeline`, `manage_workspace_files` | `execute_sql`, `manage_pipeline_run` |
+| **대시보드 생성** | `manage_dashboard` | `execute_sql`, `get_table_stats_and_schema` |
+| **Job 스케줄링** | `manage_jobs` | `manage_job_runs` |
+| **Genie Space 구성** | `manage_genie` | `execute_sql`, `manage_uc_objects` |
+| **Agent Bricks (MAS/KA)** | `manage_mas`, `manage_ka` | `manage_genie`, `manage_serving_endpoint` |
+| **RAG 파이프라인** | `manage_vs_index`, `manage_vs_endpoint` | `execute_code`, `manage_serving_endpoint` |
+| **앱 배포** | `manage_app` | `manage_workspace_files` |
+| **UC 관리 (스키마/권한)** | `manage_uc_objects`, `manage_uc_grants` | `execute_sql` |
+| **Lakebase 구성** | `manage_lakebase_database` | `manage_lakebase_branch` |
 
 ### 현재 활성 도구 수 확인
 
@@ -144,6 +162,30 @@ AI Dev Kit은 44개 도구를 제공하지만, Genie Code는 **전체 MCP 서버
 현재 활성화된 MCP 도구가 총 몇 개인지, 어떤 도구들인지 목록으로 보여줘.
 20개 제한에 걸리지 않는지도 확인해줘.
 ```
+
+### Warm-up: 사용 전 앱 깨우기
+
+MCP 앱이 유휴 상태에서 cold start되면 **첫 호출이 10~30초 지연되거나 실패**할 수 있습니다. 작업 시작 전에 간단한 요청으로 앱을 깨워두세요:
+
+```
+현재 사용자 정보 알려줘
+```
+
+> 💡 이 프롬프트가 정상 응답하면 MCP 앱이 활성 상태입니다. 이후 `manage_genie`, `manage_dashboard` 등 무거운 도구도 바로 사용 가능합니다.
+
+### MCP 도구 호출 실패 시 대응
+
+Genie Code가 MCP 도구 호출에 실패하고 "노트북으로 대신할까요?"라고 제안할 수 있습니다:
+
+```
+아니, 다시 MCP 도구로 시도해줘.
+```
+
+> MCP 도구가 더 효율적이므로 **재시도를 권장**합니다. 10~30초 후 재시도하면 대부분 해결됩니다. 계속 실패하면 [트러블슈팅](#트러블슈팅)을 참조하세요.
+
+> **`execute_code` vs `execute_sql` 팁**: `execute_code`는 클러스터 시작을 기다려야 해서 타임아웃이 자주 발생합니다. SQL로 가능한 작업은 `execute_sql`을 우선 사용하세요 (SQL Warehouse는 이미 Running 상태인 경우가 많음).
+
+> **상세 구성 가이드**: 전체 Step-by-Step과 역할별 프로필, 트러블슈팅 상세는 [genie-code-ai-dev-kit 전체 가이드](https://github.com/SimyungYang/genie-code-ai-dev-kit)를 참조하세요.
 
 ---
 
