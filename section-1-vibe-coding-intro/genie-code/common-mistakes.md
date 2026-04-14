@@ -8,7 +8,12 @@
 |------|------|
 | EDA → ETL → 대시보드를 한 대화에서 | 컨텍스트 오염 → 환각, 잘못된 테이블 참조 |
 
-**해결**: 작업마다 새 대화를 시작하세요. "New conversation" 버튼은 공짜입니다.
+**해결**: 작업마다 새 대화를 시작하세요. → [프롬프트 5대 원칙 — 원칙 1](prompt-principles.md#원칙-1-작업마다-새-대화-context-isolation) 참조
+
+> **실습**: 새 대화를 시작하고 이렇게 프롬프트를 보내보세요:
+> ```
+> (새 대화에서) @lge_smart_tv.bronze.viewing_logs에서 지역별 시청 시간 평균을 구해줘.
+> ```
 
 ---
 
@@ -26,11 +31,11 @@
 
 ## 실수 3: "Always Allow" 클릭
 
-Agent Mode에서 "Always allow"를 누르면 Genie Code가 **앞으로 모든 작업을 무승인으로 실행**합니다. DROP TABLE도.
+"Always allow"를 누르면 **앞으로 모든 작업이 무승인으로 실행**됩니다. DROP TABLE도.
 
-**해결**: **"Allow in this thread"만 사용**. 절대 "Always allow" 금지.
+**해결**: **"Allow in this thread"만 사용**. → [시작하기 — 승인 옵션](getting-started.md#승인-옵션-중요) 참조
 
-> 📸 **[스크린샷]**: Allow 옵션 — "Always allow"에 빨간 X 표시
+> **이미 "Always Allow"를 눌렀다면?** 브라우저에서 페이지를 새로고침(F5)하면 해당 대화의 "Always Allow" 설정이 초기화됩니다. 새 대화를 시작하면 다시 승인을 요청합니다.
 
 ---
 
@@ -108,3 +113,9 @@ Agent Mode가 보여주는 Plan(실행 계획)을 확인하지 않고 바로 All
 **해결**: **Plan을 반드시 읽고** 의도한 작업이 맞는지 확인 후 Allow.
 
 > 📸 **[스크린샷]**: Agent Mode Plan — 각 스텝을 확인하는 모습
+
+> **실습**: Plan 단계에서 이렇게 요청할 수 있습니다:
+> ```
+> 실행하기 전에 Plan만 보여줘. 아직 실행하지 마.
+> 어떤 테이블에 어떤 작업(SELECT/CREATE/DROP)을 할 건지 목록으로 알려줘.
+> ```

@@ -65,12 +65,14 @@ LG Smart TV webOS 텔레메트리 데이터를 기반으로, 자연어 프롬프
 
 ## 사전 요구사항
 
-| 항목 | 요구사항 |
-|------|---------|
-| Databricks Workspace | Premium 이상, Unity Catalog 활성화 |
-| 컴퓨트 | 서버리스 컴퓨트 접근 권한 |
-| Genie Code | Agent Mode 활성화 |
-| 리전 | 서울리전 기본, US리전 사용 가능 (Lakebase 등) |
+| 항목 | 요구사항 | 확인 방법 |
+|------|---------|----------|
+| Databricks Workspace | Premium 이상, Unity Catalog 활성화 | 워크스페이스 URL 접속 후 로그인 가능 여부 |
+| 컴퓨트 | 서버리스 컴퓨트(Serverless) 접근 권한 | 노트북에서 Compute → "Serverless" 선택 가능 여부 |
+| Genie Code | Agent Mode 활성화 | 노트북 우측 상단 Genie Code 아이콘이 보이는지 |
+| 리전 | 서울리전 기본, US리전 사용 가능 (Lakebase 등) | 관리자에게 문의 |
+
+> **처음 Databricks를 접하시는 분**: 걱정하지 마세요! 이 워크샵은 모든 작업을 **Genie Code Agent Mode**로 자연어 프롬프트만으로 진행합니다. SQL이나 Python을 직접 작성할 필요가 없습니다.
 
 ---
 

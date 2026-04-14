@@ -39,6 +39,11 @@ Genie Code에게 만들어달라고 하면 됩니다:
 경로: /Users/{내 username}/.assistant_instructions.md
 ```
 
+> 💡 **username 모르겠다면?** Genie Code에 이렇게 물어보세요:
+> ```
+> 내 Databricks username과 Custom Instructions 파일 경로를 알려줘.
+> ```
+
 ---
 
 ## 워크샵용 권장 Custom Instructions
@@ -70,6 +75,20 @@ Genie Code에게 만들어달라고 하면 됩니다:
 - 복잡한 쿼리는 CTE(WITH) 사용
 - 날짜 파티셔닝 기본 적용 (event_date)
 ```
+
+### 설정 확인 테스트
+
+Custom Instructions를 붙여넣었다면, 아래 프롬프트로 잘 적용됐는지 확인하세요:
+
+```
+@lge_smart_tv.bronze.devices에서 region별 디바이스 수를 세줘. 10건만 보여줘.
+```
+
+> **확인 포인트**: 
+> - 답변이 한국어로 나오는가? → "기본 규칙" 적용 확인
+> - PySpark 코드를 사용하는가? (pandas가 아닌) → "기본 규칙" 적용 확인
+> - `LIMIT` 절이 포함되어 있는가? → "안전 규칙" 적용 확인
+> - 테이블이 snake_case인가? → "네이밍 규칙" 적용 확인
 
 ---
 

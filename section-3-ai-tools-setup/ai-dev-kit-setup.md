@@ -1,6 +1,8 @@
 # AI Dev Kit 설치 & 구성
 
-> **사전 조건**: Section 2에서 AI Builder App 배포 방법을 이해한 상태
+> **사전 조건**:
+> - **방법 1 (Claude Code 로컬)**: Databricks CLI 인증 완료 ([claude-code.md Step 2](claude-code.md) 참조)
+> - **방법 2 (Genie Code MCP)**: [Section 2: AI Builder App 배포](../section-2-ai-builder-app/README.md) 완료
 
 ---
 
@@ -34,39 +36,9 @@ claude
 
 Genie Code에서 AI Dev Kit을 사용하려면 **Databricks App으로 MCP 서버를 배포**해야 합니다.
 
-> **참조**: [Section 2: AI Builder App 배포 핸즈온](../section-2-ai-builder-app/README.md)에서 앱 배포 방법을 상세히 다룹니다.
+전체 절차 (레포 클론 → 앱 생성 → 소스 업로드 → 배포 → 서비스 프린시펄 권한 부여)는 **[Section 2: AI Builder App 배포 핸즈온](../section-2-ai-builder-app/README.md)**에서 단계별로 상세히 안내합니다.
 
-### 요약 절차
-
-```bash
-# 1. 레포 클론
-git clone https://github.com/databricks-solutions/ai-dev-kit.git
-cd ai-dev-kit
-
-# 2. 앱 생성 (이름 반드시 mcp- 접두사)
-databricks apps create mcp-ai-dev-kit \
-  --description "AI Dev Kit MCP Server for Genie Code"
-
-# 3. 소스 업로드 & 배포
-DBUSER=$(databricks current-user me | jq -r .userName)
-APP_PATH="/Workspace/Users/$DBUSER/mcp-ai-dev-kit-app"
-databricks workspace mkdirs "$APP_PATH"
-for f in app/main.py app/app.yaml app/requirements.txt; do
-  databricks workspace import "$APP_PATH/$(basename $f)" \
-    --file "$f" --format RAW --overwrite
-done
-databricks apps deploy mcp-ai-dev-kit --source-code-path "$APP_PATH"
-
-# 4. 서비스 프린시펄 권한 부여
-SP_ID=$(databricks apps get mcp-ai-dev-kit -o json | jq -r .service_principal_id)
-SP_CLIENT_ID=$(databricks apps get mcp-ai-dev-kit -o json | jq -r .service_principal_client_id)
-# (상세 권한 설정은 Section 2 참조)
-
-# 5. 상태 확인
-databricks apps get mcp-ai-dev-kit
-```
-
-> 📸 **[스크린샷]**: 앱 배포 후 status: RUNNING 확인
+> 💡 **핵심 포인트**: 앱 이름은 반드시 `mcp-` 접두사로 시작해야 Genie Code Settings에서 MCP 서버로 인식됩니다.
 
 ---
 
@@ -97,6 +69,15 @@ databricks workspace list /Workspace/.assistant/skills/
 ```
 
 > 📸 **[스크린샷]**: Skills 배포 완료 목록
+
+### Skills 배포 확인 프롬프트
+
+Genie Code에서 Skills가 정상 로딩되는지 확인합니다:
+
+```
+현재 활성화된 Skills 목록을 보여줘.
+SDP 파이프라인 관련 Skill이 있으면 내용을 요약해줘.
+```
 
 ---
 

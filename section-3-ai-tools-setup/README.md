@@ -1,6 +1,8 @@
 # Section 3: AI 도구 환경 구성
 
 > **소요 시간**: ~1시간 | 이 섹션의 흐름: AI Gateway (비용 통제) → Claude Code 사용 → AI Dev Kit 설치 → Genie Code 연결
+>
+> **참고**: 이 워크샵은 **Track C (Genie Code)** 전용입니다. Section 3은 Genie Code의 기능을 확장하는 AI Dev Kit 구성에 초점을 맞추며, Claude Code는 **"이런 것도 가능하다"는 참고용 소개**입니다. 직접 설치하지 않아도 워크샵 진행에 문제 없습니다.
 
 ---
 

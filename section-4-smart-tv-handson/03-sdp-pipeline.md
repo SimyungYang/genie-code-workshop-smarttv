@@ -1,8 +1,17 @@
 # 03. SDP 파이프라인 — 데이터 품질과 Medallion Architecture
 
-> **소요 시간**: ~1시간 | **핵심 기능**: Lakeflow Declarative Pipelines, Expectations, Auto Loader
+> **소요 시간**: ~1시간 | **사전 조건**: [02. 가상 데이터 생성](02-data-generation.md) 완료 (17개 Bronze 테이블 필요)
 >
 > **핵심 메시지**: "Raw 데이터를 신뢰할 수 있는 분석용 데이터로 바꾸는 과정을 자연어 한 줄로 자동화한다"
+
+### 이 모듈에서 사용하는 Databricks 기능
+
+| 기능 | 설명 | 공식 문서 |
+|------|------|----------|
+| **SDP (Spark Declarative Pipelines)** | 이전 이름 DLT(Delta Live Tables). 데이터 파이프라인을 SQL/Python으로 "선언적"으로 정의하면, 실행 순서·증분 처리·에러 복구를 Databricks가 자동 관리합니다. | [docs](https://docs.databricks.com/en/delta-live-tables/index.html) |
+| **Expectations** | SDP에서 데이터 품질 규칙을 선언하는 기능. `expect("규칙명", "조건")`으로 위반 레코드를 감지·격리합니다. | [docs](https://docs.databricks.com/en/delta-live-tables/expectations.html) |
+| **Medallion Architecture** | Bronze(원본) → Silver(정제) → Gold(집계) 3단계 데이터 레이어 패턴. 원본을 보존하면서 단계적으로 데이터 품질을 높입니다. | [docs](https://docs.databricks.com/en/lakehouse/medallion.html) |
+| **Databricks Jobs** | 노트북/파이프라인을 스케줄링하여 자동 실행하는 기능. 매일 6시에 파이프라인 실행 같은 자동화에 사용합니다. | [docs](https://docs.databricks.com/en/workflows/jobs/create-run-jobs.html) |
 
 ## 개요
 
@@ -10,6 +19,8 @@
 
 1. **수동 CTAS**로 Bronze→Silver→Gold 변환 로직을 이해한 뒤
 2. **SDP(Spark Declarative Pipeline)**로 동일 로직을 선언적으로 자동화합니다
+
+> **참고**: 데이터 품질 위반 레코드를 격리하는 `quarantine` 스키마는 [01. 환경 설정](01-setup.md)에서 이미 생성했습니다.
 
 > Genie Code에서 전체 파이프라인을 한 번의 대화로 생성합니다.
 
@@ -50,6 +61,13 @@ lge_smart_tv.bronze의 모든 테이블에 대해 데이터 품질 리포트를 
 5. 타임스탬프 역전: session_end < session_start인 건수
 
 결과를 데이터 품질 스코어카드 형태로 보여줘.
+```
+
+### 품질 진단 결과 해석
+
+```
+위 품질 리포트 결과를 보고, Silver 변환에서 가장 먼저 처리해야 할 품질 이슈를 
+우선순위별로 정리해줘. 각 이슈의 영향도와 권장 처리 방법도 알려줘.
 ```
 
 ---
@@ -204,6 +222,43 @@ lge_smart_tv.bronze.error_crash_events를 정제하여 lge_smart_tv.silver.error
 5. event_date 파티셔닝
 
 CTAS SQL로 만들어줘.
+```
+
+### 나머지 Silver 테이블 (10개) — 동일 패턴 적용
+
+위 5개 핵심 테이블의 프롬프트 구조를 그대로 따라서 나머지 10개도 생성합니다. **Genie Code에 아래 프롬프트를 입력하면 한 번에 처리**할 수 있습니다:
+
+```
+위에서 만든 5개 Silver 테이블(viewing_sessions, system_metrics, ad_funnel, streaming_quality, error_events)과 
+동일한 변환 원칙을 적용하여 나머지 10개 Silver 테이블도 만들어줘.
+
+대상 테이블과 핵심 변환 규칙:
+1. silver.devices_cleaned ← bronze.devices: 중복 제거, region/country 표준화
+2. silver.app_sessions ← bronze.app_launch_events: BEGIN/END 쌍 매칭, 세션 duration 계산, 고아 이벤트 필터
+3. silver.boot_events ← bronze.system_boot_events: 중복 제거, ON/OFF 쌍 매칭
+4. silver.media_sessions ← bronze.media_playback_events: START/STOP 쌍 매칭, NULL hdr_type → "SDR"
+5. silver.network_events ← bronze.wifi_connection_events: signal_strength 부호 보정(양수→음수), CONNECTED/DISCONNECTED 쌍 매칭
+6. silver.acr_content ← bronze.acr_events: 중복 fingerprint 제거, match_confidence < 0.5 필터
+7. silver.voice_interactions ← bronze.voice_command_events: transcript 정규화, 빈 transcript 필터
+8. silver.iot_interactions ← bronze.thinq_device_events: command/ack 쌍 매칭, 응답시간 이상치 필터
+9. silver.panel_health ← bronze.panel_diagnostics: OLED/LCD 분리, 시간순 정렬
+10. silver.firmware_history ← bronze.firmware_updates: OTA 시퀀스 완성도 검증, 실패 건 flag
+
+공통 규칙:
+- event_id 기준 중복 제거
+- device_id 참조 무결성 검증 (devices에 없으면 제거)
+- event_date 파티셔닝 추가
+- 모든 테이블에 COMMENT 추가
+- 기존 테이블 DROP하지 말고 CREATE OR REPLACE로
+```
+
+> 💡 **팁**: 한 번에 10개를 다 만들면 시간이 오래 걸립니다. 3~4개씩 나누어 요청하는 것을 권장합니다.
+
+### Silver 전체 확인 프롬프트
+
+```
+silver 스키마에 생성된 모든 테이블 목록과 각 테이블의 row count를 보여줘.
+bronze 원본 대비 silver에서 필터링된 레코드 비율도 테이블별로 알려줘.
 ```
 
 ---
@@ -451,6 +506,15 @@ devices 조인으로 마스터 정보 추가.
 
 실행 후 각 테이블의 row count와 Expectations 통과율을 보여줘.
 ```
+
+### 파이프라인 실행 결과 확인
+
+```
+lge_smart_tv_pipeline의 최근 실행 결과를 보여줘.
+각 테이블의 row count, Expectations 통과율, 실패한 테이블이 있으면 에러 메시지를 알려줘.
+```
+
+> **참고**: SDP 파이프라인은 Databricks UI의 "Pipelines" 메뉴에서도 확인할 수 있습니다. DAG(방향성 비순환 그래프) 형태로 테이블 간 의존성과 처리 상태를 시각적으로 보여줍니다.
 
 ### 기대 결과: Expectations 대시보드
 

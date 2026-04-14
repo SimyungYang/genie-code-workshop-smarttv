@@ -1,6 +1,15 @@
 # 02. webOS Smart TV 가상 데이터 생성
 
-> **소요 시간**: ~15분 | **생성 데이터**: 약 250만건 | **컴퓨트**: Serverless 권장
+> **소요 시간**: ~15분 | **사전 조건**: [01. 환경 설정](01-setup.md) 완료 | **컴퓨트**: Serverless 권장
+
+### 이 모듈에서 사용하는 Databricks 기능
+
+| 기능 | 설명 | 공식 문서 |
+|------|------|----------|
+| **PySpark** | Databricks의 분산 데이터 처리 엔진. 대규모 데이터를 클러스터에서 병렬로 생성/처리합니다. | [docs](https://docs.databricks.com/en/pyspark/index.html) |
+| **Faker** | 테스트용 가짜 데이터를 생성하는 Python 라이브러리. 이름, 날짜, IP 주소 등 현실적인 값을 만듭니다. | [pypi](https://pypi.org/project/Faker/) |
+| **Delta Lake** | Databricks의 기본 테이블 형식. 트랜잭션 보장, 스키마 진화, 시간 여행(Time Travel) 기능을 제공합니다. | [docs](https://docs.databricks.com/en/delta/index.html) |
+| **Unity Catalog Volumes** | 파일(CSV, Parquet, PDF 등)을 저장하는 Unity Catalog 내 스토리지 영역입니다. | [docs](https://docs.databricks.com/en/volumes/index.html) |
 
 ## 개요
 
@@ -44,18 +53,38 @@ catalog: lge_smart_tv
 
 ---
 
-## 사전 준비
+## 진행 방법
 
-### Genie Code 프롬프트 (환경 설정)
+> **17개 테이블을 한 번에 다 만들 필요는 없습니다.** 테이블 1(devices)만 먼저 생성하고, 나머지는 카테고리별로 필요할 때 생성하세요. 각 테이블의 프롬프트를 Genie Code에 **그대로 복사 붙여넣기**하면 PySpark + Faker 코드가 자동 생성됩니다.
 
-노트북에서 아래 프롬프트를 Genie Code에 입력하여 카탈로그/스키마/볼륨을 생성합니다:
+### 사전 준비: 환경 설정
+
+> [01. 환경 설정](01-setup.md)에서 카탈로그/스키마를 이미 생성했다면 이 단계는 건너뛰세요.
 
 ```
 Unity Catalog에 다음 환경을 설정해줘:
 - 카탈로그: lge_smart_tv 
-- 스키마: bronze, silver, gold
+- 스키마: bronze, silver, gold, quarantine
 - 볼륨: bronze 스키마에 raw_files 볼륨 생성
 ```
+
+---
+
+## 카테고리 안내
+
+아래 17개 테이블은 카테고리별로 묶어서 설명합니다. 각 카테고리를 클릭하면 상세 스키마와 프롬프트가 펼쳐집니다.
+
+| 카테고리 | 테이블 수 | 총 건수 | 포함 테이블 |
+|---------|----------|---------|-----------|
+| **Master** | 1개 | 10,000 | devices |
+| **System** | 3개 | 265,000 | boot_events, resource_utilization, firmware_updates |
+| **Viewing** | 3개 | 880,000 | viewing_logs, app_launch_events, input_switch_events |
+| **Network** | 2개 | 250,000 | wifi_connection_events, streaming_buffer_events |
+| **Media & Ad** | 3개 | 700,000 | media_playback_events, acr_events, ad_impressions |
+| **IoT & Voice & App** | 3개 | 230,000 | thinq_device_events, voice_command_events, app_lifecycle_events |
+| **Display & Error** | 2개 | 70,000 | panel_diagnostics, error_crash_events |
+
+> **가장 먼저 테이블 1(devices)을 생성하세요.** 나머지 모든 테이블이 devices의 `device_id`를 참조합니다.
 
 ---
 
@@ -120,9 +149,23 @@ Unity Catalog에 다음 환경을 설정해줘:
 Delta 테이블로 저장하고 COMMENT를 달아줘.
 ```
 
+### 생성 확인
+
+```
+lge_smart_tv.bronze.devices 테이블이 잘 생성됐는지 확인해줘.
+총 row 수, region별 분포, product_line별 분포를 보여줘.
+```
+
+> ✅ row 수가 10,000건이고, region 분포가 KR(30%) US(25%) EU(20%)에 가까우면 정상입니다.
+
 ---
 
-## 테이블 2: system_boot_events (시스템 부팅/전원 이벤트)
+## 카테고리: System (시스템 로그)
+
+<details>
+<summary><strong>시스템 로그 3개 테이블 펼치기</strong> — boot_events(50K), resource_utilization(200K), firmware_updates(15K)</summary>
+
+### 테이블 2: system_boot_events (시스템 부팅/전원 이벤트)
 
 > webOS `pmlogd` 로그 형식을 기반으로 한 부팅/전원 상태 전환 이벤트.
 
@@ -166,7 +209,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 3: resource_utilization (시스템 리소스 사용량)
+### 테이블 3: resource_utilization (시스템 리소스 사용량)
 
 > 1분 간격으로 수집되는 CPU/메모리/GPU/온도 등 시스템 리소스 메트릭.
 
@@ -219,7 +262,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 4: firmware_updates (펌웨어 업데이트 이벤트)
+### 테이블 4: firmware_updates (펌웨어 업데이트 이벤트)
 
 ### 스키마 정의
 
@@ -258,7 +301,16 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 5: viewing_logs (시청 로그)
+</details>
+
+---
+
+## 카테고리: Viewing (시청 로그)
+
+<details>
+<summary><strong>시청 로그 3개 테이블 펼치기</strong> — viewing_logs(500K), app_launch_events(300K), input_switch_events(80K)</summary>
+
+### 테이블 5: viewing_logs (시청 로그)
 
 > webOS `com.webos.service.utp.broadcast` Luna Service 기반 채널/앱 시청 기록.
 
@@ -310,7 +362,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 6: app_launch_events (앱 실행 이벤트)
+### 테이블 6: app_launch_events (앱 실행 이벤트)
 
 > webOS `com.webos.applicationManager` (SAM) Luna Service 기반.
 
@@ -355,7 +407,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 7: input_switch_events (입력 소스 전환)
+### 테이블 7: input_switch_events (입력 소스 전환)
 
 ### 스키마 정의
 
@@ -395,7 +447,16 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 8: wifi_connection_events (WiFi 연결 이벤트)
+</details>
+
+---
+
+## 카테고리: Network (네트워크)
+
+<details>
+<summary><strong>네트워크 2개 테이블 펼치기</strong> — wifi_connection_events(100K), streaming_buffer_events(150K)</summary>
+
+### 테이블 8: wifi_connection_events (WiFi 연결 이벤트)
 
 > webOS `com.webos.service.connectionmanager` Luna Service 기반.
 
@@ -440,7 +501,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 9: streaming_buffer_events (스트리밍 버퍼 이벤트)
+### 테이블 9: streaming_buffer_events (스트리밍 버퍼 이벤트)
 
 ### 스키마 정의
 
@@ -483,7 +544,16 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 10: media_playback_events (미디어 재생 이벤트)
+</details>
+
+---
+
+## 카테고리: Media & Ad (미디어 & 광고)
+
+<details>
+<summary><strong>미디어/광고 3개 테이블 펼치기</strong> — media_playback_events(200K), acr_events(300K), ad_impressions(200K)</summary>
+
+### 테이블 10: media_playback_events (미디어 재생 이벤트)
 
 > 비디오 코덱, 해상도, HDR 메타데이터 등 미디어 파이프라인 로그.
 
@@ -536,7 +606,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 11: acr_events (자동 콘텐츠 인식 이벤트)
+### 테이블 11: acr_events (자동 콘텐츠 인식 이벤트)
 
 > LG "Live Plus" ACR 시스템. 화면 핑거프린트를 통한 콘텐츠 식별.
 
@@ -582,7 +652,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 12: ad_impressions (광고 노출/클릭/전환)
+### 테이블 12: ad_impressions (광고 노출/클릭/전환)
 
 ### 스키마 정의
 
@@ -628,7 +698,16 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 13: thinq_device_events (ThinQ IoT 디바이스 이벤트)
+</details>
+
+---
+
+## 카테고리: IoT & Voice & App
+
+<details>
+<summary><strong>IoT/음성/앱 3개 테이블 펼치기</strong> — thinq_device_events(50K), voice_command_events(80K), app_lifecycle_events(100K)</summary>
+
+### 테이블 13: thinq_device_events (ThinQ IoT 디바이스 이벤트)
 
 > `com.webos.service.iot` Luna Service 기반 ThinQ 스마트홈 연동 이벤트.
 
@@ -674,7 +753,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 14: voice_command_events (음성 명령 이벤트)
+### 테이블 14: voice_command_events (음성 명령 이벤트)
 
 ### 스키마 정의
 
@@ -723,7 +802,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 15: app_lifecycle_events (앱 설치/삭제/업데이트)
+### 테이블 15: app_lifecycle_events (앱 설치/삭제/업데이트)
 
 ### 스키마 정의
 
@@ -770,7 +849,16 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 16: panel_diagnostics (패널/디스플레이 진단)
+</details>
+
+---
+
+## 카테고리: Display & Error (디스플레이 & 에러)
+
+<details>
+<summary><strong>디스플레이/에러 2개 테이블 펼치기</strong> — panel_diagnostics(30K), error_crash_events(40K)</summary>
+
+### 테이블 16: panel_diagnostics (패널/디스플레이 진단)
 
 > OLED 패널 케어, 픽셀 리프레셔, 밝기 제어 등 디스플레이 진단 로그.
 
@@ -822,7 +910,7 @@ Delta 테이블로 저장해줘.
 
 ---
 
-## 테이블 17: error_crash_events (에러/크래시 로그)
+### 테이블 17: error_crash_events (에러/크래시 로그)
 
 > webOS `rdxd` 데몬이 수집하는 크래시/에러 리포트.
 
@@ -873,9 +961,19 @@ Delta 테이블로 저장해줘.
 
 ---
 
+</details>
+
+---
+
 ## 데이터 생성 후 검증
 
 모든 테이블 생성이 완료되면, Genie Code에 다음 프롬프트를 입력하여 데이터를 검증합니다:
+
+> 💡 **팁**: 각 테이블을 하나씩 생성할 때마다, 아래처럼 간단히 확인할 수 있습니다:
+> ```
+> 방금 만든 테이블의 row 수와 주요 컬럼 분포를 확인해줘.
+> ```
+> 17개 모두 만든 뒤 아래 종합 검증 프롬프트를 실행하세요.
 
 ### 검증 프롬프트
 

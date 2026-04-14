@@ -1,8 +1,16 @@
 # 04. AI/BI 대시보드 & Genie Space — 분석과 자연어 탐색
 
-> **소요 시간**: ~1.5시간 | **핵심 기능**: AI/BI Dashboard, Genie Space, Genie 정확도 고도화
+> **소요 시간**: ~1.5시간 | **사전 조건**: [03. SDP 파이프라인](03-sdp-pipeline.md) 완료 (Gold 테이블 10개 필요)
 >
 > **핵심 메시지**: "대시보드는 '알려진 질문'에 답하고, Genie는 '아직 모르는 질문'에 답한다"
+
+### 이 모듈에서 사용하는 Databricks 기능
+
+| 기능 | 설명 | 공식 문서 |
+|------|------|----------|
+| **AI/BI Dashboard** | 코드 없이 SQL 기반 대시보드를 만드는 기능. KPI 카운터, 차트, 필터를 조합하여 비즈니스 대시보드를 구성합니다. Genie Code로 자연어 한 줄로 생성할 수 있습니다. | [docs](https://docs.databricks.com/en/dashboards/index.html) |
+| **Genie Space** | 비개발자가 **자연어로 질문**하면 AI가 자동으로 SQL을 생성하여 데이터를 분석하는 공간입니다. 테이블을 등록하고, 비즈니스 용어와 규칙을 가르치면 정확도가 올라갑니다. | [docs](https://docs.databricks.com/en/genie/index.html) |
+| **AI Dev Kit MCP** | Genie Space를 Genie Code에서 **자연어로 생성/관리**하려면 AI Dev Kit MCP 연결이 필요합니다. Section 3에서 구성한 `manage_genie`, `manage_dashboard` 도구를 사용합니다. | [GitHub](https://github.com/databricks-solutions/ai-dev-kit) |
 
 ## 개요
 
@@ -52,6 +60,13 @@ Row 4 — 운영 지표 (3개):
 - 제품라인 (product_line)
 
 AI/BI 대시보드로 생성해줘.
+```
+
+### 대시보드 생성 확인
+
+```
+방금 만든 "Smart TV Operations Dashboard"가 잘 생성됐는지 확인해줘.
+대시보드 URL과 포함된 위젯 목록을 보여줘.
 ```
 
 ### 대시보드 2: Ad Performance Dashboard
@@ -130,6 +145,8 @@ AI/BI 대시보드로 생성해줘.
 
 비개발자가 **자연어로 질문**하면 Genie가 자동으로 SQL을 생성하여 답변하는 공간입니다. 대시보드가 "미리 정의된 질문"에 답한다면, Genie Space는 **"아직 정의되지 않은 질문"**에 답합니다.
 
+> 💡 **대시보드 vs Genie Space**: 대시보드는 "이번 달 시청자가 몇 명?"처럼 **미리 정의한 질문**에 답합니다. Genie Space는 "65인치 OLED에서 넷플릭스 시청 시간이 드라마 장르에서 얼마나 되지?"처럼 **즉석에서 떠오르는 질문**에 자연어로 답합니다.
+
 ### Genie Space 1: TV 시청 분석
 
 #### Genie Code 프롬프트 (AI Dev Kit MCP 필요)
@@ -154,6 +171,14 @@ General Instructions:
 - 지역 비교 시 한국어 지역명 사용 (KR→한국, US→미국, EU→유럽, JP→일본)
 - 비율은 소수점 1자리까지 표시
 - 결과가 10행 이상이면 자동으로 Top 10으로 제한하고, "전체 N건 중 Top 10" 표시
+```
+
+### Genie Space 생성 확인 & 첫 테스트
+
+```
+방금 만든 "LG Smart TV 시청 분석" Genie Space에 테스트 질문을 해줘:
+"최근 7일간 가장 인기 있는 앱 Top 5는?"
+SQL이 정상 생성되고 결과가 나오는지 확인해줘.
 ```
 
 ### Genie Space 2: 광고 성과 분석
@@ -253,6 +278,16 @@ COMMENT ON COLUMN lge_smart_tv.gold.daily_viewing_summary.hdr_viewing_pct IS
 ### Step 2: 샘플 질문 (Curated Questions) 등록 ⭐⭐⭐
 
 > **Genie 정확도를 가장 크게 올리는 방법**입니다. 검증된 SQL을 샘플로 등록하면, 비슷한 질문이 들어올 때 해당 패턴을 참고합니다.
+
+> **샘플 질문 등록 방법**: 
+> - **방법 1 (AI Dev Kit MCP)**: 아래 프롬프트로 Genie Code에서 등록
+> - **방법 2 (UI)**: Genie Space 화면 → 우측 상단 ⚙️ Settings → "Example questions" → "+ Add" 버튼
+>
+> MCP로 일괄 등록하는 프롬프트:
+> ```
+> "LG Smart TV 시청 분석" Genie Space에 아래 샘플 질문 15개를 모두 등록해줘.
+> 각 질문에 검증된 SQL도 함께 등록해줘.
+> ```
 
 #### 시청 분석 Genie Space — 샘플 질문 15개
 
@@ -433,9 +468,12 @@ ORDER BY ctr_pct DESC
 ```
 
 **질문 12**: 프라임타임 vs 비프라임타임 광고 eCPM 차이는?
+
+> **참고**: `ad_campaign_kpi`에는 시간대(hour) 컬럼이 없어 `hourly_engagement`와 `event_date` 기준으로 조인합니다. 이 방식은 근사값이며, 정확한 시간대별 분석이 필요하면 `silver.ad_funnel` 테이블의 timestamp를 직접 사용하세요.
+
 ```sql
--- hourly_engagement 테이블과 조인하여 시간대별 광고 성과 비교
--- ad_campaign_kpi에는 hour 컬럼이 없으므로 hourly_engagement 활용
+-- hourly_engagement 테이블과 조인하여 시간대별 광고 성과 비교 (근사값)
+-- 정확한 분석이 필요하면 silver.ad_funnel의 timestamp 사용 권장
 SELECT
   CASE WHEN h.hour_of_day BETWEEN 20 AND 23 THEN '프라임타임 (20~23시)' ELSE '비프라임타임' END AS time_slot,
   ROUND(AVG(a.ecpm), 2) AS avg_ecpm,

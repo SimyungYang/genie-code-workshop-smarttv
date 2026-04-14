@@ -6,7 +6,9 @@
 
 ## AI Gateway란?
 
-Databricks AI Gateway는 모든 AI 모델 호출을 **중앙에서 관리하는 프록시 레이어**입니다.
+Databricks AI Gateway는 모든 AI 모델 호출(Genie Code, Claude Code, Cursor 등)을 **중앙에서 관리하는 프록시 레이어**입니다. 쉽게 말해, AI 도구가 LLM(대규모 언어 모델)을 호출할 때 반드시 이 게이트웨이를 거치도록 하여 **"누가, 언제, 얼마나"** 사용했는지 추적하고 제어합니다.
+
+> 💡 **DBU(Databricks Unit)란?** Databricks의 컴퓨트 과금 단위입니다. Foundation Model API를 통해 AI 모델을 호출하면 사용한 토큰 수에 비례하여 DBU가 과금됩니다. 외부에서 각 AI 모델을 별도로 구독할 필요 없이, Databricks 청구서 하나로 통합 관리됩니다.
 
 ```
 사용자 (Genie Code, Claude Code, Cursor 등)

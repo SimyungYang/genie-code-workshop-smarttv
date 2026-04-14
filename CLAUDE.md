@@ -132,7 +132,6 @@ Supervisor Agent (LG Smart TV AI 어시스턴트)
 ├── section-1-vibe-coding-intro/         # ✅ Section 1: 리소스 소개
 │   └── genie-code/                      #    Genie Code 가이드 (9페이지)
 ├── section-2-ai-builder-app/            # ✅ Section 2: MCP 서버 앱 배포
-├── section-3-genie-code-aidevkit/       # ✅ Section 3: Genie Code + AI Dev Kit 연결
 └── section-4-smart-tv-handson/          # ✅ Section 4: E2E 핸즈온
     ├── 01-setup.md                      #    환경 설정
     ├── 02-data-generation.md            #    250만건 가상 데이터 (17 테이블)

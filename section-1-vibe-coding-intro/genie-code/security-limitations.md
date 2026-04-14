@@ -104,6 +104,15 @@ import requests
 response = requests.get("https://api.example.com/data")
 ```
 
+### 실습: 내 환경 제한사항 확인
+
+```
+내 현재 컴퓨트 환경을 확인해줘:
+1. Serverless인지 Classic Cluster인지
+2. Python과 SQL 실행이 가능한지 간단한 테스트 실행
+3. %pip install faker가 가능한지 (PySpark 패키지는 테스트하지 마)
+```
+
 > 📸 **[스크린샷]**: Serverless에서 R 코드 실행 시 에러 메시지
 
 ---
@@ -210,6 +219,18 @@ Genie Code에는 다층 보안 필터가 적용됩니다:
 | 3 | 서울리전에서 AI 기능 사용 가능한지 | Cross-Geo 설정 확인 |
 | 4 | `lge_smart_tv` 카탈로그 권한 | `SHOW SCHEMAS IN lge_smart_tv` 실행 |
 | 5 | Genie Spaces Rate Limit | 30명 동시 사용 시 20QPM 공유 → 느려질 수 있음 주의 |
+
+### 체크리스트 자동 확인 프롬프트
+
+위 체크리스트를 한 번에 확인할 수 있습니다:
+
+```
+워크샵 사전 확인을 해줘:
+1. 현재 Serverless Compute에 연결되어 있는지
+2. lge_smart_tv 카탈로그에 접근 가능한지 (SHOW SCHEMAS IN lge_smart_tv)
+3. bronze, silver, gold, quarantine 스키마가 모두 보이는지
+4. bronze 스키마에 테이블을 생성할 수 있는 권한이 있는지 (test_table 만들고 바로 삭제)
+```
 
 ### 워크샵 중 에러 대응 가이드
 

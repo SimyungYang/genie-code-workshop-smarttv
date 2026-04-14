@@ -1,8 +1,17 @@
 # 05. 에이전트 개발 — Knowledge Assistant, Genie Agent, Supervisor
 
-> **소요 시간**: ~2시간 | **핵심 기능**: Agent Bricks, Vector Search, Model Serving, Lakebase
+> **소요 시간**: ~2시간 | **사전 조건**: [04. 대시보드 & Genie Space](04-dashboard-genie.md) 완료 (Genie Space 3개 필요)
 >
 > **핵심 메시지**: "대시보드는 보는 것, Genie는 묻는 것, 에이전트는 행동하는 것"
+
+### 이 모듈에서 사용하는 Databricks 기능
+
+| 기능 | 설명 | 공식 문서 |
+|------|------|----------|
+| **Agent Bricks** | Databricks에서 AI 에이전트를 **코드 없이 UI/API로 생성**하는 기능입니다. Knowledge Assistant(문서 Q&A), Genie Agent(데이터 분석), Supervisor(오케스트레이션) 세 가지 유형이 있습니다. | [docs](https://docs.databricks.com/en/generative-ai/agent-bricks/index.html) |
+| **Vector Search** | 텍스트를 벡터(숫자 배열)로 변환하여 **의미적으로 유사한 문서**를 빠르게 찾는 기능입니다. Knowledge Assistant의 핵심 — FAQ 문서를 인덱싱하여 관련 답변을 검색합니다. | [docs](https://docs.databricks.com/en/generative-ai/vector-search.html) |
+| **Model Serving** | AI 모델을 API 엔드포인트로 배포하여 실시간으로 호출하는 기능입니다. 에이전트의 LLM(Claude, Llama 등)과 임베딩 모델이 여기서 서빙됩니다. | [docs](https://docs.databricks.com/en/machine-learning/model-serving/index.html) |
+| **Lakebase** | Databricks에 내장된 **PostgreSQL 호환 OLTP 데이터베이스**입니다. 에이전트 대화 이력, 사용자 선호도 등 트랜잭션 데이터를 저장합니다. (선택 사항) | [docs](https://docs.databricks.com/en/database/index.html) |
 
 ## 개요
 
@@ -42,6 +51,8 @@
 ### 개념
 
 Knowledge Assistant는 **비정형 문서**(PDF, 매뉴얼, FAQ)를 Vector Search로 인덱싱하여, 사용자 질문에 관련 문서 조각을 찾아 답변하는 RAG 기반 에이전트입니다.
+
+> 💡 **왜 일반 SQL 검색이 아닌 Vector Search?** SQL의 `LIKE '%번인%'` 검색은 정확히 "번인"이라는 단어가 포함된 문서만 찾습니다. 하지만 Vector Search는 "OLED 화면 잔상 방지"처럼 **의미적으로 비슷한 문서**도 찾아냅니다. 이것이 RAG(Retrieval-Augmented Generation) 기반 에이전트의 핵심입니다. RAG란 "질문과 관련된 문서를 먼저 검색(Retrieval)한 뒤, 그 문서를 LLM에 전달하여 답변을 생성(Generation)하는 방식"입니다.
 
 ### Step 1: 지식 문서 준비
 
@@ -142,6 +153,15 @@ Knowledge Assistant를 생성하고 테스트 질문 3개를 실행해줘:
 3. "WiFi가 자꾸 끊기는데 어떻게 해야 하나요?"
 ```
 
+### KA 생성 확인
+
+```
+"LG Smart TV 가이드" Knowledge Assistant가 정상 생성됐는지 확인해줘.
+Vector Search 엔드포인트 상태와 인덱스 문서 수도 알려줘.
+```
+
+> ⚠️ **주의**: Vector Search 인덱싱은 **5~10분** 소요됩니다. 인덱스 상태가 "PROVISIONING"이면 "ONLINE"이 될 때까지 기다린 뒤 테스트하세요. 인덱싱 완료 전에 KA에 질문하면 "관련 문서를 찾을 수 없습니다"라고 답합니다.
+
 ### Step 3: Knowledge Assistant 테스트 & 평가
 
 #### Genie Code 프롬프트
@@ -209,6 +229,13 @@ System Prompt:
 1. "이번 주 한국 지역 시청 시간 추이를 분석해줘"
 2. "screensaver 광고의 CTR이 banner보다 높아?"
 3. "에러율이 가장 높은 펌웨어 버전 3개를 알려줘"
+```
+
+### Genie Agent 생성 확인
+
+```
+"LG Smart TV 데이터 분석가" Genie Agent가 정상 생성됐는지 확인해줘.
+연결된 Genie Space 3개가 모두 인식되는지도 확인해줘.
 ```
 
 ---
@@ -313,6 +340,11 @@ Supervisor Agent를 생성해줘.
 ## Part D: Lakebase 연동 — 에이전트 세션 관리 (선택)
 
 > Lakebase 사용 가능한 환경에서만 진행합니다.
+
+> **Lakebase 사용 불가 시**: 아래 프롬프트로 확인한 뒤, 불가하면 이 Part를 건너뛰세요. 에이전트는 Lakebase 없이도 정상 동작합니다.
+> ```
+> 내 환경에서 Lakebase(Databricks managed PostgreSQL)를 사용할 수 있는지 확인해줘.
+> ```
 
 ### 개념
 

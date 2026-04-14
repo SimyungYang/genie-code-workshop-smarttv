@@ -1,5 +1,7 @@
 # Claude Code 사용하기
 
+> **참고**: 이 워크샵(Track C)에서는 **Genie Code**를 주력으로 사용합니다. Claude Code는 "이런 도구도 있다"는 소개 차원이며, 직접 설치하지 않아도 Section 4 핸즈온 진행에 문제 없습니다.
+>
 > AI Gateway를 통해 비용을 통제할 수 있는 환경이 갖춰졌으니, 이제 **Claude Code**를 설치하고 사용합니다.
 
 ---
@@ -51,19 +53,17 @@ databricks current-user me
 
 ## Step 3: AI Dev Kit 설치
 
-Claude Code에 Databricks AI Dev Kit을 설치하면, **44개 MCP 도구 + 25개 Skills**가 추가됩니다:
+Claude Code에 Databricks AI Dev Kit을 설치하면, **44개 MCP 도구 + 25개 Skills**가 추가됩니다.
 
-```bash
-bash <(curl -sL https://raw.githubusercontent.com/databricks-solutions/ai-dev-kit/main/install.sh)
-```
+> 설치 방법과 상세 구성은 **[AI Dev Kit 설치 & 구성](ai-dev-kit-setup.md)**을 참조하세요.
 
-설치 완료 후:
+설치 완료 확인:
 ```bash
 claude
+# → "Databricks AI Dev Kit already set up." 메시지가 나오면 성공
 ```
 
 > 📸 **[스크린샷]**: AI Dev Kit 설치 완료 메시지
-> 📸 **[스크린샷]**: `claude` 실행 후 AI Dev Kit 도구 목록 표시
 
 ---
 
