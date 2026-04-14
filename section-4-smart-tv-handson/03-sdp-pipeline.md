@@ -117,7 +117,8 @@ Genie Code가 코드를 생성하면 다음 순서로 진행합니다:
 4. **Accept all 클릭**: 코드를 수락하면 노트북에 반영됩니다.
 5. **실행**: 노트북 상단의 **Run all** 또는 셀별 실행 버튼(▶)으로 코드를 실행합니다.
 
-> 📸 **[스크린샷]**: 초록색 코드 → Accept all 버튼 → 노트북 반영
+![코드 생성 → Accept all](../section-1-vibe-coding-intro/genie-code/images/code-accept-all.png)
+*초록색이 새로 생성된 코드, 우측 패널의 Accept all을 클릭하면 노트북에 반영됩니다*
 
 > 💡 **팁**: 코드가 마음에 들지 않으면 Accept all 대신 **Reject all**을 클릭하고, 구체적인 수정 사항을 프롬프트로 요청하세요.
 

@@ -31,7 +31,8 @@
    - 초록색 불이 들어오면 사용 가능한 상태입니다
    - 처음 연결 시 10~20초 정도 소요될 수 있습니다
 
-> 📸 **[스크린샷]**: 새 노트북 생성 → 이름 변경 → Serverless 컴퓨트 연결 (초록불)
+![Serverless 드롭다운](../section-1-vibe-coding-intro/genie-code/images/serverless-dropdown.png) → ![Serverless 연결 완료](../section-1-vibe-coding-intro/genie-code/images/serverless-connected.png)
+*Serverless를 선택하면(왼쪽) 잠시 후 초록불이 켜집니다(오른쪽)*
 
 > 💡 **컴퓨트란?** 코드를 실행하는 컴퓨터입니다. Serverless를 선택하면 Databricks가 관리하는 컴퓨터를 바로 사용할 수 있어, 클러스터를 직접 만들 필요가 없습니다.
 
@@ -44,7 +45,8 @@
 3. 패널 하단에서 드롭다운을 클릭 → **Agent** 선택
 4. 하단 입력창에 프롬프트를 입력할 수 있는 상태가 됩니다
 
-> 📸 **[스크린샷]**: ✨ 아이콘 클릭 → 사이드 패널 열림 → 하단 Agent 모드 선택
+![Genie Code 패널 + Agent Mode](../section-1-vibe-coding-intro/genie-code/images/genie-code-panel.png)
+*Genie Code 사이드 패널이 열리면 하단에서 Agent 모드를 선택합니다*
 
 > ⚠️ **Stop 버튼 확인**: Genie Code가 작업 중일 때는 입력창 우측에 **빨간색 Stop 버튼**이 표시됩니다. 이 버튼이 보이는 동안은 AI가 아직 코드를 실행하고 있으므로, 다음 프롬프트를 입력하지 마세요. 기존 작업을 중단하려면 Stop 버튼을 클릭합니다.
 

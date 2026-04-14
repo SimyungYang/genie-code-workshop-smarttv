@@ -10,9 +10,17 @@
 4. 패널 하단의 드롭다운을 클릭하면 **Agent** / **Chat** 두 가지 모드가 나타납니다
 5. **Agent**를 선택합니다
 
-> 📸 **[스크린샷]**: 우측 상단 Genie Code 아이콘 → 클릭 → 사이드 패널 열림 → 하단 Agent 모드 선택
+![Genie Code 아이콘 (접힌 상태)](images/genie-code-icon-collapsed.png) → ![Genie Code 아이콘 (클릭 후)](images/genie-code-icon-expanded.png)
+
+*우측 상단의 별 아이콘(✨)을 클릭하면 램프 모양으로 바뀌고, 클릭하면 사이드 패널이 열립니다*
+
+![Genie Code 사이드 패널](images/genie-code-panel.png)
+*Agent 모드가 선택된 Genie Code 사이드 패널. 하단 입력창에 프롬프트를 입력합니다.*
 
 > ⚠️ **주의**: Genie Code가 코드를 실행하면 하단에 **빨간색 Stop 버튼**이 표시됩니다. Stop 버튼이 보이는 동안은 AI가 아직 작업 중이므로, 다음 프롬프트를 입력하지 마세요.
+
+![Stop 버튼](images/stop-button.png)
+*빨간색 ■ 버튼이 보이면 작업 진행 중. 완료되면 버튼이 사라집니다.*
 
 | | **Agent Mode** (권장) | Chat Mode |
 |---|---|---|
@@ -21,7 +29,8 @@
 | 적합한 작업 | EDA, ETL, 대시보드, ML, 파이프라인 | 개념 설명, 간단한 코드 생성 |
 | 승인 절차 | 실행 전 Plan 보여주고 승인 요청 | 없음 |
 
-> 📸 **[스크린샷]**: 모드 전환 드롭다운 — Agent Mode / Chat Mode 선택
+![Agent/Chat 모드 드롭다운](images/agent-chat-dropdown.png)
+*Agent Mode를 선택하면 코드 생성 → 실행 → 검증까지 자동 수행합니다*
 
 > 💡 **워크샵에서는 Agent Mode만 사용합니다.**
 
@@ -48,7 +57,8 @@ Agent Mode가 코드를 실행하려 할 때 3가지 옵션이 나타납니다:
 | **Allow in this thread** | 이 대화에서는 항상 허용 | ✅ **워크샵에서 권장** |
 | **Always allow** | 앞으로 영원히 허용 | ❌ **절대 사용 금지** (데이터 삭제 위험) |
 
-> 📸 **[스크린샷]**: Allow 옵션 3가지 — "Always allow"에 빨간 X 표시
+![Allow 옵션 3가지](images/allow-options.png)
+*"Always allow in current thread"만 선택하세요. "Always allow"는 절대 금지!*
 
 ---
 
