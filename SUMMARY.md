@@ -12,6 +12,7 @@
   * [상황별 프롬프트 템플릿](section-1-vibe-coding-intro/genie-code/prompt-templates.md)
   * [Custom Instructions 설정](section-1-vibe-coding-intro/genie-code/custom-instructions.md)
   * [자주 하는 실수](section-1-vibe-coding-intro/genie-code/common-mistakes.md)
+  * [보안 제한사항 — 뭐가 되고 안 되는지](section-1-vibe-coding-intro/genie-code/security-limitations.md)
   * [내장 기능 둘러보기](section-1-vibe-coding-intro/genie-code/built-in-features.md)
   * [스크린샷 가이드](section-1-vibe-coding-intro/genie-code/screenshot-guide.md)
 
