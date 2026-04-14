@@ -46,6 +46,46 @@ Genie Code에게 만들어달라고 하면 됩니다:
 
 ---
 
+## Custom Instructions 적용 전후 비교
+
+Instructions 없이 먼저 테스트하고, 설정 후 같은 질문을 다시 해보면 차이를 확인할 수 있습니다.
+
+### Step 1: Instructions 없이 테스트
+
+새 노트북을 만들고 Genie Code에 아래 프롬프트를 입력하세요:
+
+```
+@lge_smart_tv.bronze.viewing_logs에서 지역별 시청 시간 합계를 구하고 차트로 보여줘.
+```
+
+### 관찰 포인트 (적용 전)
+
+다음 항목을 확인합니다:
+- 답변이 한국어인가, 영어인가?
+- PySpark를 사용하는가, pandas를 사용하는가?
+- 변수명이 snake_case인가, camelCase인가?
+- 차트 제목/축 레이블이 한국어인가?
+- LIMIT 절이 포함되어 있는가?
+- 코드에 주석이 달려 있는가?
+
+> 이 결과를 기억해두고, Custom Instructions 설정 후 **같은 질문**을 다시 해볼 것입니다.
+
+### Step 2: Instructions 적용 후 비교
+
+아래 권장 Instructions를 설정한 뒤, **새 대화**(+ 버튼)를 시작하고 **동일한 프롬프트**를 입력합니다.
+
+### 관찰 포인트 (적용 후)
+
+| 항목 | 적용 전 | 적용 후 (기대) |
+|------|---------|--------------|
+| 답변 언어 | 영어 가능 | ✅ 한국어 |
+| 라이브러리 | pandas 가능 | ✅ PySpark |
+| 변수명 | camelCase 가능 | ✅ snake_case |
+| LIMIT | 없을 수 있음 | ✅ LIMIT 1000 포함 |
+| 코드 주석 | 없거나 영어 | ✅ 한국어 주석 |
+
+---
+
 ## 워크샵용 권장 Custom Instructions
 
 아래 내용을 그대로 복사해서 Custom Instructions에 넣으세요:

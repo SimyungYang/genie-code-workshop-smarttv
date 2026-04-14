@@ -107,6 +107,20 @@ lge_smart_tv.bronze의 모든 테이블에 대해 데이터 품질 리포트를 
 
 > 💡 **VAST(Video Ad Serving Template)란?** 디지털 광고 표준 프로토콜입니다. 광고 이벤트가 `AD_START` → `FIRST_QUARTILE` → `MIDPOINT` → `THIRD_QUARTILE` → `AD_COMPLETE` 순서로 발생하며, 이 순서가 역전된 레코드는 네트워크 재전송으로 인한 데이터 오류입니다.
 
+### Genie Code 코드 생성 → 확인 → 적용 흐름
+
+Genie Code가 코드를 생성하면 다음 순서로 진행합니다:
+
+1. **Plan 확인**: Genie Code가 "이렇게 할 예정입니다"라는 실행 계획을 보여줍니다. 읽어보고 의도한 작업이 맞는지 확인합니다.
+2. **Allow 클릭**: 계획이 맞으면 **"Allow in this thread"**를 클릭합니다. (절대 "Always allow" 금지!)
+3. **코드 생성 확인**: 노트북에 초록색으로 새 코드가 표시됩니다. 우측 Genie Code 패널에 **Accept all** 버튼이 나타납니다.
+4. **Accept all 클릭**: 코드를 수락하면 노트북에 반영됩니다.
+5. **실행**: 노트북 상단의 **Run all** 또는 셀별 실행 버튼(▶)으로 코드를 실행합니다.
+
+> 📸 **[스크린샷]**: 초록색 코드 → Accept all 버튼 → 노트북 반영
+
+> 💡 **팁**: 코드가 마음에 들지 않으면 Accept all 대신 **Reject all**을 클릭하고, 구체적인 수정 사항을 프롬프트로 요청하세요.
+
 ### Genie Code 프롬프트: Silver 테이블 생성 (핵심 5개)
 
 > 전체 15개를 한번에 하면 너무 길어지므로, 핵심 테이블 5개를 먼저 만들고 나머지는 동일 패턴으로 확장합니다.

@@ -541,6 +541,68 @@ GROUP BY ad_format
 ORDER BY vcr DESC
 ```
 
+### Genie Space 설정 UI 상세 가이드
+
+Genie Space를 생성한 뒤, 정확도를 높이려면 **Settings** 화면에서 여러 항목을 구성해야 합니다. 아래는 단계별 UI 경로입니다.
+
+#### 설정 화면 접근 방법
+
+1. Databricks 왼쪽 사이드바 → **SQL** → **Genie**
+2. 생성한 Genie Space 클릭 (예: "LG Smart TV 시청 분석")
+3. 화면 우측 상단 ⚙️ **Configure** 클릭
+4. 아래 6개 탭이 나타납니다:
+
+| 탭 | 용도 | 설정 내용 |
+|---|------|----------|
+| **About** | 기본 정보 | 이름, 설명, SQL Warehouse 연결 확인 |
+| **Data** | 연결된 테이블 | 테이블 추가/제거, 테이블별 설명(Description), 동의어(Synonyms) |
+| **Instructions** | 비즈니스 규칙 | 용어 정의, 계산 규칙, 출력 형식 (아래 Step 3에서 상세 설명) |
+| **Joins** | 테이블 관계 | 테이블 간 조인 키와 관계 유형 (1:N, N:1) 정의 |
+| **SQL Expressions** | 사전 정의 수식 | Filter, Measure, Dimension 등록 |
+| **SQL Queries** | 샘플 질문 | Example Query (검증된 SQL), SQL Function 등록 |
+
+> 📸 **[스크린샷]**: Genie Space Configure 화면 — 6개 탭
+
+#### Joins 탭 설정
+
+**+ Add** 버튼을 클릭하여 테이블 간 관계를 정의합니다:
+
+| Left Table | Right Table | Join Key | 관계 |
+|-----------|------------|----------|------|
+| daily_viewing_summary | devices | device_id | Many to One |
+| content_popularity | daily_viewing_summary | event_date | Many to Many |
+| user_engagement_360 | devices | device_id | One to One |
+
+> 💡 **왜 Joins를 설정하나?** Genie가 "65인치 OLED의 시청 시간"을 물어보면, `daily_viewing_summary`와 `devices`를 어떤 키로 조인해야 하는지 알아야 합니다. Joins를 설정하지 않으면 Genie가 잘못된 조인을 하거나 조인 자체를 못 합니다.
+
+#### SQL Expressions 탭 — 재사용 가능한 비즈니스 로직 등록
+
+| 유형 | 이름 | SQL | 설명 |
+|------|------|-----|------|
+| **Filter** | 프라임타임 시청 | `is_primetime = true` | 프라임타임(20~23시) 필터 |
+| **Measure** | 평균 시청 시간 | `ROUND(AVG(total_viewing_min), 1)` | 소수점 1자리 평균 |
+| **Dimension** | 분기 구분 | `CASE WHEN MONTH(event_date) BETWEEN 1 AND 3 THEN 'Q1' ... END` | 날짜를 분기로 변환 |
+
+> 📸 **[스크린샷]**: SQL Expressions → Filter/Measure/Dimension 추가 화면
+
+#### SQL Queries 탭 — 샘플 질문 등록
+
+**+ Add** → **Example query** 클릭:
+
+1. **Question**: 질문을 입력 (예: "최근 7일간 인기 프로그램 Top 10")
+2. **SQL answer**: 검증된 SQL을 붙여넣기 (아래 Step 2의 15개 SQL 참조)
+3. **Save**
+
+> 📸 **[스크린샷]**: Example query 등록 화면 — Question + SQL answer 입력
+
+#### Benchmarks — 정확도 측정 (선택)
+
+질문과 정답 SQL을 등록하면, Genie가 생성한 SQL이 정답과 얼마나 일치하는지 자동 평가합니다.
+
+**+ Add benchmark** 클릭 → Question과 Ground truth SQL answer 입력 → **Run all benchmarks**
+
+> 💡 이 기능을 활용하면 "Genie 정확도 80% → 95%"와 같은 정량적 개선을 추적할 수 있습니다.
+
 ### Step 3: General Instructions 상세 설정
 
 #### 시청 분석 Genie Space
