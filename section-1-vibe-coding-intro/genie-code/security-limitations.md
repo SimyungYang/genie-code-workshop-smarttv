@@ -117,22 +117,7 @@ response = requests.get("https://api.example.com/data")
 
 ---
 
-### 2. Genie Spaces vs Genie Code — 쓰기 작업 차이
-
-| | Genie Spaces (AI/BI) | Genie Code (Notebook) |
-|---|---|---|
-| SELECT | ✅ | ✅ |
-| INSERT | ❌ **불가** | ✅ (Allow 후) |
-| UPDATE | ❌ **불가** | ✅ (Allow 후) |
-| DELETE | ❌ **불가** | ✅ (Allow 후) |
-| DROP | ❌ **불가** | ✅ (Allow 후) |
-| CREATE TABLE | ❌ **불가** | ✅ (Allow 후) |
-
-> **Genie Spaces는 읽기 전용 SQL만 생성합니다.** 데이터 변경은 Genie Code(노트북)에서만 가능합니다.
-
----
-
-### 3. Rate Limits (속도 제한)
+### 2. Rate Limits (속도 제한)
 
 | 대상 | 한도 | 비고 |
 |------|------|------|
@@ -145,7 +130,7 @@ response = requests.get("https://api.example.com/data")
 
 ---
 
-### 4. 콘텐츠 보안 필터링
+### 3. 콘텐츠 보안 필터링
 
 Genie Code에는 다층 보안 필터가 적용됩니다:
 
@@ -161,7 +146,7 @@ Genie Code에는 다층 보안 필터가 적용됩니다:
 
 ---
 
-### 5. 지역(Region) 제한
+### 4. 지역(Region) 제한
 
 | 지역 | Genie Code 사용 |
 |------|----------------|
@@ -179,7 +164,7 @@ Genie Code에는 다층 보안 필터가 적용됩니다:
 
 ---
 
-### 6. 실무에서 자주 겪는 문제
+### 5. 실무에서 자주 겪는 문제
 
 | 증상 | 원인 | 해결 |
 |------|------|------|
@@ -195,7 +180,7 @@ Genie Code에는 다층 보안 필터가 적용됩니다:
 
 ---
 
-### 7. 관리자가 통제할 수 있는 것
+### 6. 관리자가 통제할 수 있는 것
 
 | 통제 항목 | 방법 |
 |-----------|------|
