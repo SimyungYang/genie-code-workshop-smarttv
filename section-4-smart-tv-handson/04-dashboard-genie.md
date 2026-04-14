@@ -434,16 +434,18 @@ ORDER BY ctr_pct DESC
 
 **질문 12**: 프라임타임 vs 비프라임타임 광고 eCPM 차이는?
 ```sql
--- General Instructions에서 프라임타임 정의를 참조
--- 이 쿼리는 hourly_engagement와 조인하여 시간대 구분
+-- hourly_engagement 테이블과 조인하여 시간대별 광고 성과 비교
+-- ad_campaign_kpi에는 hour 컬럼이 없으므로 hourly_engagement 활용
 SELECT
-  CASE WHEN hour BETWEEN 20 AND 23 THEN '프라임타임 (20~23시)' ELSE '비프라임타임' END AS time_slot,
-  ROUND(AVG(ecpm), 2) AS avg_ecpm,
-  SUM(impressions) AS total_impressions,
-  ROUND(SUM(total_revenue_usd), 2) AS total_revenue
-FROM lge_smart_tv.gold.ad_campaign_kpi
-WHERE event_date >= CURRENT_DATE - INTERVAL 7 DAYS
-GROUP BY CASE WHEN hour BETWEEN 20 AND 23 THEN '프라임타임 (20~23시)' ELSE '비프라임타임' END
+  CASE WHEN h.hour_of_day BETWEEN 20 AND 23 THEN '프라임타임 (20~23시)' ELSE '비프라임타임' END AS time_slot,
+  ROUND(AVG(a.ecpm), 2) AS avg_ecpm,
+  SUM(a.impressions) AS total_impressions,
+  ROUND(SUM(a.total_revenue_usd), 2) AS total_revenue
+FROM lge_smart_tv.gold.ad_campaign_kpi a
+JOIN lge_smart_tv.gold.hourly_engagement h 
+  ON a.event_date = h.event_date
+WHERE a.event_date >= CURRENT_DATE - INTERVAL 7 DAYS
+GROUP BY CASE WHEN h.hour_of_day BETWEEN 20 AND 23 THEN '프라임타임 (20~23시)' ELSE '비프라임타임' END
 ```
 
 **질문 13**: 상위 5개 광고주의 캠페인 성과 비교

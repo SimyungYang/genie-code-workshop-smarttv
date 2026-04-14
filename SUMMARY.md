@@ -19,13 +19,18 @@
 
 * [AI Builder App 배포 핸즈온](section-2-ai-builder-app/README.md)
 
+## Section 2.5: AI Gateway — AI 도구 비용 관리
+
+* [AI Gateway 가이드](section-2-ai-gateway/README.md)
+
 ## Section 3: Genie Code + AI Dev Kit
 
 * [Genie Code에 AI Dev Kit 구성하기](section-3-genie-code-aidevkit/README.md)
 
 ## Section 4: LG Smart TV E2E 핸즈온
 
+* [환경 설정](section-4-smart-tv-handson/01-setup.md)
 * [가상 데이터 생성 (250만건)](section-4-smart-tv-handson/02-data-generation.md)
-* [SDP 파이프라인 — 데이터 품질](section-4-smart-tv-handson/03-sdp-pipeline.md)
+* [SDP 파이프라인 — 데이터 품질 + 증분 처리](section-4-smart-tv-handson/03-sdp-pipeline.md)
 * [대시보드 & Genie Space](section-4-smart-tv-handson/04-dashboard-genie.md)
 * [에이전트 개발](section-4-smart-tv-handson/05-agent-development.md)

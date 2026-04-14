@@ -69,21 +69,16 @@ webOS TV 실제 텔레메트리 로그 체계(pmlogd, Luna Service API, rdxd)를
 
 | 순서 | 모듈 | 핵심 기능 | 소요시간 |
 |------|------|---------|---------|
-| 1 | 환경 설정 (UC Catalog/Schema/Volume) | Unity Catalog | ~1분 |
+| 1 | 환경 설정 | Unity Catalog, Schema, Volume | ~5분 |
 | 2 | 가상 데이터 생성 (250만건, 17테이블) | PySpark, Faker, Delta Lake | ~15분 |
-| 3 | Bronze→Silver→Gold 수동 변환 | CTAS, SQL, Medallion Architecture | ~30분 |
-| 4 | SDP 파이프라인 자동화 | Lakeflow Declarative Pipelines, Expectations | ~30분 |
-| 5 | AI/BI 대시보드 & Genie Space | Dashboard, Genie Space | ~1시간 |
-| 6 | 실시간 이벤트 생성기 배포 | Databricks Apps, FastAPI | ~30분 |
-| 7 | Structured Streaming | Auto Loader, Structured Streaming | ~1시간 |
-| 8 | ML 추천 모델 & MLOps | Feature Store, LightGBM, MLflow, Model Serving | ~1.5시간 |
-| 9 | 이미지 이상 탐지 | CNN, SHAP, 비정형 데이터 처리 | ~1시간 |
-| 10 | GenAI 에이전트 & OLTP | Agent Bricks, Lakebase | ~2시간 |
+| 3 | SDP 파이프라인 (Bronze→Silver→Gold) | Lakeflow Declarative Pipelines, Expectations, 증분 처리 | ~1시간 |
+| 4 | AI/BI 대시보드 & Genie Space | Dashboard, Genie Space, 정확도 고도화 | ~1.5시간 |
+| 5 | GenAI 에이전트 | Agent Bricks (KA + Genie Agent + Supervisor), Lakebase(선택) | ~2시간 |
 
-**12가지 Databricks 핵심 기능 커버리지**:
-Unity Catalog, Delta Lake, SDP (Lakeflow), Auto Loader, Structured Streaming, AI/BI Dashboard, AI/BI Genie, MLflow, Model Serving, Vector Search, Agent Bricks, Apps + Lakebase
+**워크샵에서 다루는 Databricks 핵심 기능**:
+Unity Catalog, Delta Lake, SDP (Lakeflow), AI/BI Dashboard, AI/BI Genie, Vector Search, Agent Bricks, Model Serving, Apps + Lakebase(선택)
 
-**3가지 학습 트랙**:
+**학습 트랙**: 이 워크샵은 **Track C (Genie Code)** 전용입니다. 모든 실습을 Genie Code Agent Mode로 진행합니다.
 
 | 트랙 | 방식 | 추천 대상 |
 |------|------|---------|
@@ -132,16 +127,18 @@ Supervisor Agent (LG Smart TV AI 어시스턴트)
 
 ```
 ├── CLAUDE.md                            # 이 파일
-├── section-4-smart-tv-handson/          # Section 4: E2E 핸즈온
-│   ├── 02-data-generation.md            # ✅ 250만건 가상 데이터 (17 테이블)
-│   ├── 03-sdp-pipeline.md               # ✅ SDP 파이프라인 + 데이터 품질
-│   ├── 04-dashboard-genie.md            # ✅ 대시보드 3개 + Genie Space 3개 + 정확도 고도화
-│   └── 05-agent-development.md          # ✅ KA + Genie Agent + Supervisor + Lakebase
-├── section-1-vibe-coding-intro/         # Section 1: 리소스 소개 (미작성)
-├── section-2-ai-builder-app/            # Section 2: App 배포 핸즈온 (미작성)
-├── section-3-genie-code-aidevkit/       # Section 3: Genie Code + AI Dev Kit (미작성)
-├── README.md                            # GitBook 메인 페이지 (미작성)
-└── SUMMARY.md                           # GitBook 목차 (미작성)
+├── README.md                            # ✅ GitBook 메인 페이지
+├── SUMMARY.md                           # ✅ GitBook 목차
+├── section-1-vibe-coding-intro/         # ✅ Section 1: 리소스 소개
+│   └── genie-code/                      #    Genie Code 가이드 (9페이지)
+├── section-2-ai-builder-app/            # ✅ Section 2: MCP 서버 앱 배포
+├── section-3-genie-code-aidevkit/       # ✅ Section 3: Genie Code + AI Dev Kit 연결
+└── section-4-smart-tv-handson/          # ✅ Section 4: E2E 핸즈온
+    ├── 01-setup.md                      #    환경 설정
+    ├── 02-data-generation.md            #    250만건 가상 데이터 (17 테이블)
+    ├── 03-sdp-pipeline.md               #    SDP 파이프라인 + 증분 처리 + 데이터 품질
+    ├── 04-dashboard-genie.md            #    대시보드 3개 + Genie Space 3개 + 정확도 고도화
+    └── 05-agent-development.md          #    KA + Genie Agent + Supervisor + Lakebase
 ```
 
 ## 참고 리소스

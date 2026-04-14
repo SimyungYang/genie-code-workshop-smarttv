@@ -38,8 +38,8 @@ databricks --version
 # macOS
 brew install databricks
 
-# pip
-pip install databricks-cli
+# pip (최신 Databricks SDK)
+pip install databricks-sdk
 ```
 
 ### 인증
@@ -191,7 +191,7 @@ databricks apps get mcp-ai-dev-kit -o json | jq -r .url
 | 앱 상태 `FAILED` | requirements.txt 의존성 오류 | `databricks apps logs mcp-ai-dev-kit`로 로그 확인 |
 | Genie Code에서 안 보임 | 앱 이름이 `mcp-`로 시작 안 함 | 앱 삭제 후 `mcp-` 접두사로 재생성 |
 | 권한 오류 | 서비스 프린시펄 권한 부족 | Step 5 재실행 |
-| 도구가 15개 초과 | MCP 도구 제한 | Settings에서 필요한 도구만 ON |
+| 도구가 20개 초과 | MCP 도구 제한 | Settings에서 필요한 도구만 ON |
 
 ---
 
