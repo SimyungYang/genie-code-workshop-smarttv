@@ -131,7 +131,7 @@ Unity Catalog에 다음 환경을 설정해줘:
 조건:
 - 테이블: smart_tv.bronze.devices
 - device_id: "SMART_TV_{region}_{6자리 시퀀스}" 형식 (예: SMART_TV_KR_000001)
-- model_name: LG TV 실제 모델 naming convention 따를 것
+- model_name: Smart TV 모델 naming convention 따를 것
   - OLED: OLED{size}{시리즈}{년도} (예: OLED65C4PSA, OLED77G4PUA)
   - QNED: {size}QNED{시리즈}{년도} (예: 86QNED90TPA, 75QNED85TPA)  
   - NANO: {size}NANO{시리즈}{년도} (예: 65NANO80TPA)
@@ -449,8 +449,8 @@ Delta 테이블로 저장해줘.
 - device_type 분포: stb(35%), game_console(25%), soundbar(15%), bluray(10%), pc(10%), unknown(5%)
 - cec_device_name 예시:
   - game_console → "PlayStation 5", "XBOX Series X", "Nintendo Switch"
-  - stb → "Apple TV 4K", "Chromecast", "Fire TV Stick", "KT IPTV", "SK Btv", "LG U+ tv"
-  - bluray → "LG UBK90", "Sony UBP-X800M2"
+  - stb → "Apple TV 4K", "Chromecast", "Fire TV Stick", "KT IPTV", "SK Btv", "U+ tv"
+  - bluray → "UBK90", "Sony UBP-X800M2"
 - HDMI2.1 비율: OLED_C/G → 80%, 기타 → 30%
 - allm_active: game_console일 때 90% true
 - vrr_active: game_console이고 HDMI2.1일 때 85% true
@@ -704,7 +704,7 @@ Delta 테이블로 저장해줘.
 - ad_duration_sec: 15초(40%), 30초(40%), 60초(20%)
 - revenue_model: CPM(60%), CPC(25%), CPCV(15%)
 - bid_price_usd: CPM($5~25), CPC($0.5~3), CPCV($10~40)
-- advertiser_name: 대기업 위주 (삼성, 현대, SK, LG, 롯데, CJ, 네이버, 카카오 등)
+- advertiser_name: 대기업 위주 (삼성, 현대, SK, 롯데, CJ, 네이버, 카카오, Toyota, Apple 등)
 - 시간대별 bid_price 변동: 프라임타임(20~23시) 1.5배, 심야(0~6시) 0.5배
 
 Delta 테이블로 저장해줘.
