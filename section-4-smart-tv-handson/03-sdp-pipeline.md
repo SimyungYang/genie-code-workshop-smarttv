@@ -53,7 +53,7 @@
 ### Genie Code 프롬프트: 데이터 품질 진단
 
 ```
-lge_smart_tv.bronze의 모든 테이블에 대해 데이터 품질 리포트를 만들어줘:
+smart_tv.bronze의 모든 테이블에 대해 데이터 품질 리포트를 만들어줘:
 
 1. 각 테이블별 NULL 비율 상위 5개 컬럼
 2. 중복 레코드 수 (event_id 기준)
@@ -134,7 +134,7 @@ Genie Code가 코드를 생성하면 다음 순서로 진행합니다:
 #### Silver 1: viewing_sessions (시청 세션)
 
 ```
-lge_smart_tv.bronze.viewing_logs를 정제하여 lge_smart_tv.silver.viewing_sessions 테이블을 만들어줘.
+smart_tv.bronze.viewing_logs를 정제하여 smart_tv.silver.viewing_sessions 테이블을 만들어줘.
 
 변환 규칙:
 1. event_id 기준 중복 제거 (같은 event_id면 최신 timestamp만 유지)
@@ -159,7 +159,7 @@ CTAS SQL로 만들어줘.
 #### Silver 2: system_metrics (시스템 메트릭)
 
 ```
-lge_smart_tv.bronze.resource_utilization을 정제하여 lge_smart_tv.silver.system_metrics를 만들어줘.
+smart_tv.bronze.resource_utilization을 정제하여 smart_tv.silver.system_metrics를 만들어줘.
 
 변환 규칙:
 1. 이상치 클리핑: cpu_usage_pct, gpu_usage_pct, mem_used_pct → CLIP(0, 100)
@@ -183,7 +183,7 @@ CTAS SQL로 만들어줘.
 #### Silver 3: ad_funnel (광고 퍼널)
 
 ```
-lge_smart_tv.bronze.ad_impressions를 정제하여 lge_smart_tv.silver.ad_funnel을 만들어줘.
+smart_tv.bronze.ad_impressions를 정제하여 smart_tv.silver.ad_funnel을 만들어줘.
 
 변환 규칙:
 1. event_id 기준 중복 제거
@@ -207,7 +207,7 @@ CTAS SQL로 만들어줘.
 #### Silver 4: streaming_quality (스트리밍 품질)
 
 ```
-lge_smart_tv.bronze.streaming_buffer_events를 정제하여 lge_smart_tv.silver.streaming_quality를 만들어줘.
+smart_tv.bronze.streaming_buffer_events를 정제하여 smart_tv.silver.streaming_quality를 만들어줘.
 
 변환 규칙:
 1. event_id 중복 제거
@@ -228,7 +228,7 @@ CTAS SQL로 만들어줘.
 #### Silver 5: error_events (에러 이벤트)
 
 ```
-lge_smart_tv.bronze.error_crash_events를 정제하여 lge_smart_tv.silver.error_events를 만들어줘.
+smart_tv.bronze.error_crash_events를 정제하여 smart_tv.silver.error_events를 만들어줘.
 
 변환 규칙:
 1. event_id 중복 제거
@@ -496,8 +496,8 @@ devices 조인으로 마스터 정보 추가.
 ```
 위에서 만든 Bronze → Silver → Gold 변환 로직을 SDP(Spark Declarative Pipeline)로 전환해줘.
 
-파이프라인 이름: lge_smart_tv_pipeline
-타겟 카탈로그: lge_smart_tv
+파이프라인 이름: smart_tv_pipeline
+타겟 카탈로그: smart_tv
 타겟 스키마: silver (Silver 테이블), gold (Gold 테이블)
 
 요구사항:
@@ -521,7 +521,7 @@ devices 조인으로 마스터 정보 추가.
 
 ```
 방금 만든 SDP 파이프라인 노트북을 실행할 수 있도록:
-1. lge_smart_tv_pipeline 이름으로 파이프라인 생성
+1. smart_tv_pipeline 이름으로 파이프라인 생성
 2. 서버리스 컴퓨트 사용
 3. Continuous 모드 대신 Triggered 모드로 설정
 4. 파이프라인 실행하고 결과 확인
@@ -532,7 +532,7 @@ devices 조인으로 마스터 정보 추가.
 ### 파이프라인 실행 결과 확인
 
 ```
-lge_smart_tv_pipeline의 최근 실행 결과를 보여줘.
+smart_tv_pipeline의 최근 실행 결과를 보여줘.
 각 테이블의 row count, Expectations 통과율, 실패한 테이블이 있으면 에러 메시지를 알려줘.
 ```
 
@@ -557,10 +557,10 @@ lge_smart_tv_pipeline의 최근 실행 결과를 보여줘.
 ### Genie Code 프롬프트 (AI Dev Kit MCP 활용)
 
 ```
-lge_smart_tv_pipeline을 매일 자동 실행하는 Job을 만들어줘.
+smart_tv_pipeline을 매일 자동 실행하는 Job을 만들어줘.
 
 설정:
-- Job 이름: lge_smart_tv_daily_refresh
+- Job 이름: smart_tv_daily_refresh
 - 스케줄: 매일 오전 6시 KST (cron: 0 21 * * * UTC)
 - 재시도: 최대 2회, 간격 10분
 - 알림: 실패 시 이메일 알림

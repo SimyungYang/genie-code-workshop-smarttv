@@ -1,6 +1,6 @@
 # Table of contents
 
-* [워크샵 소개](README.md)
+* [핸즈온 소개](README.md)
 
 ## Section 1: Genie Code 완전 가이드
 
@@ -28,7 +28,7 @@
   * [AI Dev Kit 설치 & 구성](section-3-ai-tools-setup/ai-dev-kit-setup.md)
   * [Genie Code + AI Dev Kit 연결](section-3-ai-tools-setup/genie-code-aidevkit.md)
 
-## Section 4: LG Smart TV E2E 핸즈온
+## Section 4: Smart TV E2E 핸즈온
 
 * [환경 설정](section-4-smart-tv-handson/01-setup.md)
 * [가상 데이터 생성 (250만건)](section-4-smart-tv-handson/02-data-generation.md)

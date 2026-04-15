@@ -160,16 +160,16 @@ AI/BI 대시보드로 생성해줘.
 ```
 다음 설정으로 Genie Space를 만들어줘.
 
-이름: LG Smart TV 시청 분석
+이름: Smart TV 시청 분석
 설명: Smart TV 시청 데이터를 자연어로 탐색합니다. 시청 시간, 콘텐츠 인기도, 사용자 행동 패턴을 분석할 수 있습니다.
 
 포함 테이블:
-- lge_smart_tv.gold.daily_viewing_summary
-- lge_smart_tv.gold.content_popularity
-- lge_smart_tv.gold.hourly_engagement
-- lge_smart_tv.gold.user_engagement_360
-- lge_smart_tv.silver.viewing_sessions (상세 분석용)
-- lge_smart_tv.bronze.devices (디바이스 마스터)
+- smart_tv.gold.daily_viewing_summary
+- smart_tv.gold.content_popularity
+- smart_tv.gold.hourly_engagement
+- smart_tv.gold.user_engagement_360
+- smart_tv.silver.viewing_sessions (상세 분석용)
+- smart_tv.bronze.devices (디바이스 마스터)
 
 General Instructions:
 - 시청 시간은 분(min) 단위로 표시하되, 1시간 이상이면 시간:분 형식도 병기
@@ -182,7 +182,7 @@ General Instructions:
 ### Genie Space 생성 확인 & 첫 테스트
 
 ```
-방금 만든 "LG Smart TV 시청 분석" Genie Space에 테스트 질문을 해줘:
+방금 만든 "Smart TV 시청 분석" Genie Space에 테스트 질문을 해줘:
 "최근 7일간 가장 인기 있는 앱 Top 5는?"
 SQL이 정상 생성되고 결과가 나오는지 확인해줘.
 ```
@@ -194,14 +194,14 @@ SQL이 정상 생성되고 결과가 나오는지 확인해줘.
 ```
 다음 설정으로 Genie Space를 만들어줘.
 
-이름: LG Ad Performance
-설명: LG Smart TV 광고 캠페인의 노출, 클릭, 전환 성과를 자연어로 분석합니다.
+이름: Ad Performance
+설명: Smart TV 광고 캠페인의 노출, 클릭, 전환 성과를 자연어로 분석합니다.
 
 포함 테이블:
-- lge_smart_tv.gold.ad_campaign_kpi
-- lge_smart_tv.silver.ad_funnel (상세 퍼널)
-- lge_smart_tv.silver.acr_content (ACR 콘텐츠 매칭)
-- lge_smart_tv.bronze.devices
+- smart_tv.gold.ad_campaign_kpi
+- smart_tv.silver.ad_funnel (상세 퍼널)
+- smart_tv.silver.acr_content (ACR 콘텐츠 매칭)
+- smart_tv.bronze.devices
 
 General Instructions:
 - 금액은 USD 기준, 천 단위 콤마 표시
@@ -222,12 +222,12 @@ General Instructions:
 설명: Smart TV 디바이스의 건강 상태, 에러율, 펌웨어 현황을 분석합니다.
 
 포함 테이블:
-- lge_smart_tv.gold.device_health_score
-- lge_smart_tv.gold.streaming_qoe
-- lge_smart_tv.gold.error_rate_by_firmware
-- lge_smart_tv.silver.error_events
-- lge_smart_tv.silver.system_metrics
-- lge_smart_tv.bronze.devices
+- smart_tv.gold.device_health_score
+- smart_tv.gold.streaming_qoe
+- smart_tv.gold.error_rate_by_firmware
+- smart_tv.silver.error_events
+- smart_tv.silver.system_metrics
+- smart_tv.bronze.devices
 
 General Instructions:
 - 건강 점수는 0~100 스케일, 등급은 A/B/C/D/F
@@ -258,24 +258,24 @@ General Instructions:
 #### Genie Code 프롬프트
 
 ```
-lge_smart_tv.gold 스키마의 모든 테이블과 컬럼에 한국어 COMMENT를 추가해줘.
+smart_tv.gold 스키마의 모든 테이블과 컬럼에 한국어 COMMENT를 추가해줘.
 
 규칙:
 - 테이블 COMMENT: 비즈니스 담당자가 이해할 수 있는 설명 (50자 이내)
 - 컬럼 COMMENT: 값의 의미, 단위, 범위를 포함
 
 예시:
-ALTER TABLE lge_smart_tv.gold.daily_viewing_summary SET TBLPROPERTIES (
+ALTER TABLE smart_tv.gold.daily_viewing_summary SET TBLPROPERTIES (
   'comment' = '디바이스별 일별 시청 통계 집계 테이블'
 );
 
-COMMENT ON COLUMN lge_smart_tv.gold.daily_viewing_summary.total_viewing_min IS 
+COMMENT ON COLUMN smart_tv.gold.daily_viewing_summary.total_viewing_min IS 
   '일 총 시청 시간(분). Live TV + OTT + HDMI 합산. 범위: 0~1440';
 
-COMMENT ON COLUMN lge_smart_tv.gold.daily_viewing_summary.primetime_min IS 
+COMMENT ON COLUMN smart_tv.gold.daily_viewing_summary.primetime_min IS 
   '프라임타임(20~23시 KST) 시청 시간(분)';
 
-COMMENT ON COLUMN lge_smart_tv.gold.daily_viewing_summary.hdr_viewing_pct IS 
+COMMENT ON COLUMN smart_tv.gold.daily_viewing_summary.hdr_viewing_pct IS 
   'HDR 콘텐츠 시청 비율(%). DolbyVision + HDR10 + HDR10Plus + HLG';
 
 모든 Gold 테이블(daily_viewing_summary, content_popularity, ad_campaign_kpi, device_health_score, streaming_qoe, hourly_engagement, voice_usage_analytics, iot_ecosystem_stats, error_rate_by_firmware, user_engagement_360)의 모든 컬럼에 COMMENT를 달아줘.
@@ -291,7 +291,7 @@ COMMENT ON COLUMN lge_smart_tv.gold.daily_viewing_summary.hdr_viewing_pct IS
 >
 > MCP로 일괄 등록하는 프롬프트:
 > ```
-> "LG Smart TV 시청 분석" Genie Space에 아래 샘플 질문 15개를 모두 등록해줘.
+> "Smart TV 시청 분석" Genie Space에 아래 샘플 질문 15개를 모두 등록해줘.
 > 각 질문에 검증된 SQL도 함께 등록해줘.
 > ```
 
@@ -308,7 +308,7 @@ SELECT
   SUM(total_viewers) AS total_viewers,
   ROUND(SUM(total_viewing_min), 1) AS total_viewing_min,
   ROUND(AVG(avg_viewing_min), 1) AS avg_viewing_min_per_viewer
-FROM lge_smart_tv.gold.content_popularity
+FROM smart_tv.gold.content_popularity
 WHERE event_date >= CURRENT_DATE - INTERVAL 7 DAYS
   AND program_title != 'Unknown'
 GROUP BY program_title, genre, content_source
@@ -323,7 +323,7 @@ SELECT
   ROUND(SUM(live_tv_min) / (SUM(ott_min) + SUM(live_tv_min)) * 100, 1) AS live_tv_pct,
   ROUND(SUM(ott_min), 0) AS total_ott_min,
   ROUND(SUM(live_tv_min), 0) AS total_live_tv_min
-FROM lge_smart_tv.gold.daily_viewing_summary
+FROM smart_tv.gold.daily_viewing_summary
 WHERE region = 'KR'
   AND event_date >= CURRENT_DATE - INTERVAL 7 DAYS
 ```
@@ -336,8 +336,8 @@ SELECT
   ROUND(AVG(v.total_viewing_min), 1) AS avg_daily_viewing_min,
   ROUND(AVG(v.session_count), 1) AS avg_sessions,
   ROUND(AVG(v.hdr_viewing_pct), 1) AS avg_hdr_pct
-FROM lge_smart_tv.gold.daily_viewing_summary v
-JOIN lge_smart_tv.bronze.devices d ON v.device_id = d.device_id
+FROM smart_tv.gold.daily_viewing_summary v
+JOIN smart_tv.bronze.devices d ON v.device_id = d.device_id
 WHERE v.event_date >= CURRENT_DATE - INTERVAL 7 DAYS
 GROUP BY d.product_line
 ORDER BY avg_daily_viewing_min DESC
@@ -353,7 +353,7 @@ SELECT
   DAYOFWEEK(event_date) AS day_num,
   COUNT(DISTINCT device_id) AS primetime_viewers,
   ROUND(AVG(primetime_min), 1) AS avg_primetime_min
-FROM lge_smart_tv.gold.daily_viewing_summary
+FROM smart_tv.gold.daily_viewing_summary
 WHERE event_date >= CURRENT_DATE - INTERVAL 30 DAYS
   AND primetime_min > 0
 GROUP BY DAYOFWEEK(event_date)
@@ -368,7 +368,7 @@ SELECT
   ROUND(AVG(v.total_viewing_min), 1) AS avg_viewing_min,
   ROUND(AVG(v.hdr_viewing_pct), 1) AS avg_hdr_pct,
   ROUND(AVG(v.`4k_viewing_pct`), 1) AS avg_4k_pct
-FROM lge_smart_tv.gold.daily_viewing_summary v
+FROM smart_tv.gold.daily_viewing_summary v
 WHERE v.top_app = 'netflix'
   AND v.event_date >= CURRENT_DATE - INTERVAL 7 DAYS
 GROUP BY v.top_genre
@@ -383,8 +383,8 @@ SELECT
   COUNT(DISTINCT v.device_id) AS device_count,
   ROUND(AVG(v.total_viewing_min), 1) AS avg_daily_min,
   ROUND(AVG(v.session_count), 1) AS avg_sessions
-FROM lge_smart_tv.gold.daily_viewing_summary v
-JOIN lge_smart_tv.bronze.devices d ON v.device_id = d.device_id
+FROM smart_tv.gold.daily_viewing_summary v
+JOIN smart_tv.bronze.devices d ON v.device_id = d.device_id
 WHERE d.screen_size_inch = 65
   AND d.product_line LIKE 'OLED%'
   AND v.event_date >= CURRENT_DATE - INTERVAL 7 DAYS
@@ -399,7 +399,7 @@ WITH weekly AS (
     DATE_TRUNC('week', event_date) AS week_start,
     ROUND(AVG(total_viewing_min), 1) AS avg_viewing_min,
     COUNT(DISTINCT device_id) AS active_devices
-  FROM lge_smart_tv.gold.daily_viewing_summary
+  FROM smart_tv.gold.daily_viewing_summary
   WHERE event_date >= CURRENT_DATE - INTERVAL 30 DAYS
   GROUP BY DATE_TRUNC('week', event_date)
 )
@@ -421,7 +421,7 @@ SELECT
   COUNT(DISTINCT device_id) AS total_users,
   ROUND(COUNT(DISTINCT CASE WHEN avg_daily_viewing_min >= 240 THEN device_id END) * 100.0 / 
     COUNT(DISTINCT device_id), 1) AS power_user_pct
-FROM lge_smart_tv.gold.user_engagement_360
+FROM smart_tv.gold.user_engagement_360
 ```
 
 **질문 9**: 어떤 장르가 주말에 더 많이 시청되나?
@@ -432,7 +432,7 @@ SELECT
   ROUND(SUM(CASE WHEN DAYOFWEEK(event_date) NOT IN (1, 7) THEN total_viewing_min ELSE 0 END), 0) AS weekday_min,
   ROUND(SUM(CASE WHEN DAYOFWEEK(event_date) IN (1, 7) THEN total_viewing_min ELSE 0 END) /
     NULLIF(SUM(CASE WHEN DAYOFWEEK(event_date) NOT IN (1, 7) THEN total_viewing_min ELSE 0 END), 0), 2) AS weekend_to_weekday_ratio
-FROM lge_smart_tv.gold.content_popularity
+FROM smart_tv.gold.content_popularity
 WHERE event_date >= CURRENT_DATE - INTERVAL 30 DAYS
 GROUP BY genre
 ORDER BY weekend_to_weekday_ratio DESC
@@ -446,7 +446,7 @@ WITH ranked AS (
     top_app,
     COUNT(*) AS usage_count,
     ROW_NUMBER() OVER (PARTITION BY region ORDER BY COUNT(*) DESC) AS rn
-  FROM lge_smart_tv.gold.daily_viewing_summary
+  FROM smart_tv.gold.daily_viewing_summary
   WHERE event_date >= CURRENT_DATE - INTERVAL 7 DAYS
     AND top_app IS NOT NULL
   GROUP BY region, top_app
@@ -467,7 +467,7 @@ SELECT
   SUM(clicks) AS total_clicks,
   ROUND(SUM(clicks) * 100.0 / NULLIF(SUM(impressions), 0), 2) AS ctr_pct,
   ROUND(SUM(total_revenue_usd), 2) AS total_revenue
-FROM lge_smart_tv.gold.ad_campaign_kpi
+FROM smart_tv.gold.ad_campaign_kpi
 WHERE event_date >= DATE_TRUNC('month', CURRENT_DATE)
 GROUP BY ad_format
 ORDER BY ctr_pct DESC
@@ -485,8 +485,8 @@ SELECT
   ROUND(AVG(a.ecpm), 2) AS avg_ecpm,
   SUM(a.impressions) AS total_impressions,
   ROUND(SUM(a.total_revenue_usd), 2) AS total_revenue
-FROM lge_smart_tv.gold.ad_campaign_kpi a
-JOIN lge_smart_tv.gold.hourly_engagement h 
+FROM smart_tv.gold.ad_campaign_kpi a
+JOIN smart_tv.gold.hourly_engagement h 
   ON a.event_date = h.event_date
 WHERE a.event_date >= CURRENT_DATE - INTERVAL 7 DAYS
 GROUP BY CASE WHEN h.hour_of_day BETWEEN 20 AND 23 THEN '프라임타임 (20~23시)' ELSE '비프라임타임' END
@@ -496,7 +496,7 @@ GROUP BY CASE WHEN h.hour_of_day BETWEEN 20 AND 23 THEN '프라임타임 (20~23�
 ```sql
 WITH top_advertisers AS (
   SELECT advertiser_name, SUM(total_revenue_usd) AS total_rev
-  FROM lge_smart_tv.gold.ad_campaign_kpi
+  FROM smart_tv.gold.ad_campaign_kpi
   WHERE event_date >= CURRENT_DATE - INTERVAL 30 DAYS
   GROUP BY advertiser_name
   ORDER BY total_rev DESC
@@ -509,7 +509,7 @@ SELECT
   ROUND(SUM(a.completions) * 100.0 / NULLIF(SUM(a.impressions), 0), 2) AS vcr,
   ROUND(SUM(a.total_revenue_usd), 2) AS revenue,
   ROUND(AVG(a.ecpm), 2) AS avg_ecpm
-FROM lge_smart_tv.gold.ad_campaign_kpi a
+FROM smart_tv.gold.ad_campaign_kpi a
 JOIN top_advertisers t ON a.advertiser_name = t.advertiser_name
 WHERE a.event_date >= CURRENT_DATE - INTERVAL 30 DAYS
 GROUP BY a.advertiser_name
@@ -524,7 +524,7 @@ SELECT
   ROUND(SUM(total_revenue_usd), 2) AS revenue,
   ROUND(AVG(ecpm), 2) AS avg_ecpm,
   ROUND(SUM(clicks) * 100.0 / NULLIF(SUM(impressions), 0), 2) AS ctr
-FROM lge_smart_tv.gold.ad_campaign_kpi
+FROM smart_tv.gold.ad_campaign_kpi
 WHERE placement = 'home_screen'
   AND ad_format = 'display_banner'
 GROUP BY DATE_TRUNC('month', event_date)
@@ -539,7 +539,7 @@ SELECT
   ROUND(AVG(avg_completion_pct), 1) AS avg_completion_pct,
   ROUND(SUM(completions) * 100.0 / NULLIF(SUM(impressions), 0), 1) AS vcr,
   ROUND(AVG(ecpm), 2) AS avg_ecpm
-FROM lge_smart_tv.gold.ad_campaign_kpi
+FROM smart_tv.gold.ad_campaign_kpi
 WHERE event_date >= CURRENT_DATE - INTERVAL 30 DAYS
 GROUP BY ad_format
 ORDER BY vcr DESC
@@ -552,7 +552,7 @@ Genie Space를 생성한 뒤, 정확도를 높이려면 **Settings** 화면에�
 #### 설정 화면 접근 방법
 
 1. Databricks 왼쪽 사이드바 → **SQL** → **Genie**
-2. 생성한 Genie Space 클릭 (예: "LG Smart TV 시청 분석")
+2. 생성한 Genie Space 클릭 (예: "Smart TV 시청 분석")
 3. 화면 우측 상단 ⚙️ **Configure** 클릭
 4. 아래 6개 탭이 나타납니다:
 
@@ -674,7 +674,7 @@ Genie Space 설정 → General Instructions에 아래 내용을 추가합니다:
 #### Genie Code 프롬프트: 테스트 실행
 
 ```
-방금 만든 "LG Smart TV 시청 분석" Genie Space에서 다음 질문들을 테스트하고 결과를 평가해줘:
+방금 만든 "Smart TV 시청 분석" Genie Space에서 다음 질문들을 테스트하고 결과를 평가해줘:
 
 테스트 질문:
 1. "한국에서 가장 인기 있는 앱은?" → 기대: Netflix 또는 YouTube가 상위

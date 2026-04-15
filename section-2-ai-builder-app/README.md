@@ -224,7 +224,7 @@ databricks api patch /api/2.0/preview/scim/v2/ServicePrincipals/$SP_ID --json '{
 
 ```sql
 -- <sp_client_id>를 위 5-1에서 확인한 Client ID로 교체
-GRANT ALL PRIVILEGES ON CATALOG lge_smart_tv TO `<sp_client_id>`;
+GRANT ALL PRIVILEGES ON CATALOG smart_tv TO `<sp_client_id>`;
 ```
 
 > 💡 **Client ID 확인**: 위 Step 5-1에서 출력된 `Client ID` 값을 `<sp_client_id>` 자리에 넣으세요.

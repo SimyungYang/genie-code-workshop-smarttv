@@ -74,13 +74,13 @@ claude
 ### 예시 1: 테이블 탐색
 
 ```
-lge_smart_tv 카탈로그에 어떤 테이블이 있는지 보여줘
+smart_tv 카탈로그에 어떤 테이블이 있는지 보여줘
 ```
 
 ### 예시 2: 데이터 분석
 
 ```
-lge_smart_tv.gold.daily_viewing_summary에서 
+smart_tv.gold.daily_viewing_summary에서 
 지역별 평균 시청 시간을 분석해줘
 ```
 

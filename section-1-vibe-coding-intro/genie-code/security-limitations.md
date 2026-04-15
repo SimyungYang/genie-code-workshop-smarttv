@@ -97,7 +97,7 @@ df = spark.read.parquet("/Volumes/my_catalog/my_schema/my_volume/file.parquet")
 
 # ✅ SQL 실행
 %sql
-SELECT * FROM lge_smart_tv.gold.daily_viewing_summary LIMIT 10
+SELECT * FROM smart_tv.gold.daily_viewing_summary LIMIT 10
 
 # ✅ 외부 API 호출 (노트북 코드에서)
 import requests
@@ -202,7 +202,7 @@ Genie Code에는 다층 보안 필터가 적용됩니다:
 | 1 | Genie Code가 활성화되어 있는지 | 노트북에서 Genie Code 아이콘 확인 |
 | 2 | Serverless Compute 접근 권한 | 노트북에서 Serverless 선택 가능 여부 |
 | 3 | 서울리전에서 AI 기능 사용 가능한지 | Cross-Geo 설정 확인 |
-| 4 | `lge_smart_tv` 카탈로그 권한 | `SHOW SCHEMAS IN lge_smart_tv` 실행 |
+| 4 | `smart_tv` 카탈로그 권한 | `SHOW SCHEMAS IN smart_tv` 실행 |
 | 5 | Genie Spaces Rate Limit | 30명 동시 사용 시 20QPM 공유 → 느려질 수 있음 주의 |
 
 ### 체크리스트 자동 확인 프롬프트
@@ -212,7 +212,7 @@ Genie Code에는 다층 보안 필터가 적용됩니다:
 ```
 워크샵 사전 확인을 해줘:
 1. 현재 Serverless Compute에 연결되어 있는지
-2. lge_smart_tv 카탈로그에 접근 가능한지 (SHOW SCHEMAS IN lge_smart_tv)
+2. smart_tv 카탈로그에 접근 가능한지 (SHOW SCHEMAS IN smart_tv)
 3. bronze, silver, gold, quarantine 스키마가 모두 보이는지
 4. bronze 스키마에 테이블을 생성할 수 있는 권한이 있는지 (test_table 만들고 바로 삭제)
 ```

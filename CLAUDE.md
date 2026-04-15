@@ -1,11 +1,9 @@
-# Databricks Vibe Coding 워크샵 — LG Smart TV
+# Databricks Vibe Coding 핸즈온 (Smart TV)
 
 ## 프로젝트 개요
 
-- **교육 일시**: 2026년 4월 22일
-- **대상**: LG전자
 - **주제**: Databricks 환경에서의 Vibe Coding 실습
-- **시나리오**: LG Smart TV 데이터 기반 End-to-End 데이터/AI 파이프라인 구축
+- **시나리오**: Smart TV 데이터 기반 End-to-End 데이터/AI 파이프라인 구축
 - **배포 형태**: GitHub 개인 프로필 Push → GitBook 연동으로 교육 가이드 제공
 
 ## 교육 구성 (4개 섹션)
@@ -34,11 +32,11 @@ Lakebase 미사용 시 제약사항 설명 및 git clone부터 상세 배포 과
 - Skills를 `/Workspace/.assistant/skills/`에 배포
 - 크로스 프로덕트 오케스트레이션 테스트 (Genie Space 생성 + 대시보드 + Job 스케줄링)
 
-### Section 4: LG Smart TV 시나리오 End-to-End 핸즈온
+### Section 4: Smart TV 시나리오 End-to-End 핸즈온
 - **참조**: https://simyungyang.gitbook.io/databricks-enablement-resources/hands-on-workshop/smart-tv-vibe
 - 가상 데이터 생성 (250만건, 17개 테이블) → 데이터 파이프라인 → 분석 → ML → GenAI 에이전트
 
-#### 워크로드 시나리오: LG Smart TV 데이터 플랫폼
+#### 워크로드 시나리오: Smart TV 데이터 플랫폼
 
 **데이터셋 (가상 데이터 — 17개 테이블, 약 250만건)**:
 
@@ -80,7 +78,7 @@ Unity Catalog, Delta Lake, SDP (Lakeflow), AI/BI Dashboard, AI/BI Genie, Vector 
 
 **실습 환경**: 모든 실습을 **Genie Code Agent Mode + AI Dev Kit MCP** 환경에서 진행합니다.
 
-## 시나리오 상세: LG Smart TV 비즈니스 컨텍스트
+## 시나리오 상세: Smart TV 비즈니스 컨텍스트
 
 ### 핵심 유스케이스
 
@@ -109,7 +107,7 @@ Unity Catalog, Delta Lake, SDP (Lakeflow), AI/BI Dashboard, AI/BI Genie, Vector 
 ### 에이전트 아키텍처
 
 ```
-Supervisor Agent (LG Smart TV AI 어시스턴트)
+Supervisor Agent (Smart TV AI 어시스턴트)
 ├── Knowledge Assistant: 100개 FAQ, RAG 기반 사용 가이드/트러블슈팅
 └── Genie Agent: 3개 Genie Space 연동 데이터 분석
     ├── 시청 분석 Genie Space (15개 샘플 질문)
