@@ -2,13 +2,21 @@
 
 ## Agent Mode vs Chat Mode
 
-### Agent Mode 전환 방법 (UI 단계별 안내)
+### Genie Code 여는 방법
 
-1. Databricks 워크스페이스에서 아무 **노트북**을 엽니다
-2. 노트북 우측 상단에 **무지개색 별 아이콘**(✨)이 보입니다 — 이것이 Genie Code 버튼입니다
-3. 아이콘을 클릭하면 화면 우측에 **Genie Code 사이드 패널**이 열립니다
-4. 패널 하단의 드롭다운을 클릭하면 **Agent** / **Chat** 두 가지 모드가 나타납니다
-5. **Agent**를 선택합니다
+Genie Code는 **어디서든** 열 수 있습니다 — 노트북이 아니어도 됩니다:
+
+| 방법 | 설명 |
+|------|------|
+| **상단 바 버튼** | Databricks 화면 우측 상단의 **Genie Code 아이콘**(✨)을 클릭 — 어느 페이지에서든 사용 가능 |
+| **노트북 사이드바** | 노트북 우측 사이드바의 Genie Code 아이콘 클릭 |
+| **`Cmd+I` (인라인)** | 노트북 셀 안에서 인라인 Genie Code 호출 (해당 셀 컨텍스트로 동작) |
+
+### Agent Mode 전환
+
+1. Genie Code 패널이 열리면, 하단의 드롭다운을 클릭합니다
+2. **Agent** / **Chat** 두 가지 모드가 나타납니다
+3. **Agent**를 선택합니다
 
 ![Genie Code 아이콘 (접힌 상태)](images/genie-code-icon-collapsed.png) → ![Genie Code 아이콘 (클릭 후)](images/genie-code-icon-expanded.png)
 

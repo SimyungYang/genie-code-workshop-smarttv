@@ -149,4 +149,4 @@ Supervisor Agent (Smart TV AI 어시스턴트)
 - 코드 주석과 변수명은 **영어** 사용
 - GitBook 호환 Markdown 형식 유지 (SUMMARY.md 기반 네비게이션)
 - 각 섹션은 독립적으로 진행 가능하도록 구성
-- 노트북은 Track A/B/C 모두 호환 가능하도록 작성
+- 특정 조직/날짜를 직접 언급하지 않고 범용으로 작성
