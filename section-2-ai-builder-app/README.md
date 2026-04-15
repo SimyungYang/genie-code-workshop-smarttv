@@ -345,4 +345,6 @@ watch databricks apps get mcp-ai-dev-kit
 
 ## 다음 단계
 
-앱 배포가 완료되면 **[Section 3: AI 도구 환경 구성](../section-3-ai-tools-setup/README.md)**으로 이동하여 AI Gateway → Claude Code → AI Dev Kit 순서로 구성합니다.
+앱 배포가 완료되면 **[Section 3: Genie Code에 AI Dev Kit 연결](../section-3-ai-tools-setup/genie-code-aidevkit.md)**으로 이동하여 MCP 서버를 Genie Code에 연결하고 도구를 활성화합니다.
+
+> Section 3에는 AI Gateway(비용 관리), Claude Code(참고용) 소개도 포함되어 있지만, 실습에서 필수적인 것은 **[Genie Code + AI Dev Kit 연결](../section-3-ai-tools-setup/genie-code-aidevkit.md)** 페이지입니다.
