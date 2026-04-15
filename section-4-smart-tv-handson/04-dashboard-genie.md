@@ -1,9 +1,13 @@
 # 04. AI/BI 대시보드 & Genie Space — 분석과 자연어 탐색
 
-> **소요 시간**: ~1.5시간 | **사전 조건**: [03. SDP 파이프라인](03-sdp-pipeline.md) 완료 (Gold 테이블 10개 필요)
->
-> **실습 환경**: Genie Code + AI Dev Kit MCP 연결 상태에서 진행합니다 ([Section 3 참조](../section-3-ai-tools-setup/genie-code-aidevkit.md)). 대시보드 생성(`manage_dashboard`), Genie Space 생성(`manage_genie`), Job 스케줄링(`manage_jobs`) 모두 MCP 도구를 활용합니다. MCP 문제 발생 시 [트러블슈팅](../section-3-ai-tools-setup/genie-code-aidevkit.md#워크샵-실습-중-mcp-도구-문제)을 참조하세요.
->
+| 항목 | 내용 |
+|------|------|
+| **소요 시간** | ~1.5시간 |
+| **사전 조건** | [03. SDP 파이프라인](03-sdp-pipeline.md) 완료 (Gold 테이블 10개 필요) |
+| **실습 환경** | Genie Code + AI Dev Kit MCP 연결 상태 ([Section 3 참조](../section-3-ai-tools-setup/genie-code-aidevkit.md)) |
+| **사용 MCP 도구** | `manage_dashboard`, `manage_genie`, `manage_jobs` |
+| **MCP 문제 시** | [트러블슈팅](../section-3-ai-tools-setup/genie-code-aidevkit.md#워크샵-실습-중-mcp-도구-문제) 참조 |
+
 > **핵심 메시지**: "대시보드는 '알려진 질문'에 답하고, Genie는 '아직 모르는 질문'에 답한다"
 
 ### 이 모듈에서 사용하는 Databricks 기능

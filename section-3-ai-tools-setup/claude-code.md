@@ -1,6 +1,6 @@
 # Claude Code 사용하기
 
-> **참고**: 이 워크샵(Track C)에서는 **Genie Code**를 주력으로 사용합니다. Claude Code는 "이런 도구도 있다"는 소개 차원이며, 직접 설치하지 않아도 Section 4 핸즈온 진행에 문제 없습니다.
+> **참고**: 이 워크샵에서는 **Genie Code + AI Dev Kit MCP**를 주력으로 사용합니다. Claude Code는 "이런 도구도 있다"는 소개 차원이며, 직접 설치하지 않아도 Section 4 핸즈온 진행에 문제 없습니다.
 >
 > AI Gateway를 통해 비용을 통제할 수 있는 환경이 갖춰졌으니, 이제 **Claude Code**를 설치하고 사용합니다.
 
@@ -92,7 +92,7 @@ gold 스키마 테이블로 Genie Space를 만들고,
 매일 6시에 리프레시하는 Job도 설정해줘.
 ```
 
-> 이 크로스 프로덕트 작업은 Claude Code + AI Dev Kit에서만 가능합니다. Genie Code 단독으로는 불가.
+> 이 크로스 프로덕트 작업은 AI Dev Kit MCP 연결이 필요합니다. Claude Code 또는 Genie Code 모두 AI Dev Kit을 통해 가능합니다.
 
 > 📸 **[스크린샷]**: Claude Code에서 크로스 프로덕트 작업 실행 모습
 

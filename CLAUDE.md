@@ -78,13 +78,7 @@ webOS TV 실제 텔레메트리 로그 체계(pmlogd, Luna Service API, rdxd)를
 **워크샵에서 다루는 Databricks 핵심 기능**:
 Unity Catalog, Delta Lake, SDP (Lakeflow), AI/BI Dashboard, AI/BI Genie, Vector Search, Agent Bricks, Model Serving, Apps + Lakebase(선택)
 
-**학습 트랙**: 이 워크샵은 **Track C (Genie Code)** 전용입니다. 모든 실습을 Genie Code Agent Mode로 진행합니다.
-
-| 트랙 | 방식 | 추천 대상 |
-|------|------|---------|
-| **Track A** | 노트북 직접 실행 | 코드를 한 줄씩 이해하고 싶은 분 |
-| **Track B** | Claude Code + AI Dev Kit | AI 코딩 도구 생산성 체험 |
-| **Track C** | Genie Code (Databricks 내장) | 별도 설치 없이 AI 코딩 체험 |
+**실습 환경**: 모든 실습을 **Genie Code Agent Mode + AI Dev Kit MCP** 환경에서 진행합니다.
 
 ## 시나리오 상세: LG Smart TV 비즈니스 컨텍스트
 

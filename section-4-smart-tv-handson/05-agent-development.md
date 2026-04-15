@@ -1,9 +1,12 @@
 # 05. 에이전트 개발 — Knowledge Assistant, Genie Agent, Supervisor
 
-> **소요 시간**: ~2시간 | **사전 조건**: [04. 대시보드 & Genie Space](04-dashboard-genie.md) 완료 (Genie Space 3개 필요)
->
-> **실습 환경**: Genie Code + AI Dev Kit MCP 연결 상태에서 진행합니다. Knowledge Assistant(`manage_ka`), Genie Agent, Supervisor Agent(`manage_mas`), Vector Search(`manage_vs_index`, `manage_vs_endpoint`), Lakebase(`manage_lakebase_database`) 모두 MCP 도구를 활용합니다.
->
+| 항목 | 내용 |
+|------|------|
+| **소요 시간** | ~2시간 |
+| **사전 조건** | [04. 대시보드 & Genie Space](04-dashboard-genie.md) 완료 (Genie Space 3개 필요) |
+| **실습 환경** | Genie Code + AI Dev Kit MCP 연결 상태 |
+| **사용 MCP 도구** | `manage_ka`, `manage_mas`, `manage_vs_index`, `manage_vs_endpoint`, `manage_lakebase_database` |
+
 > **핵심 메시지**: "대시보드는 보는 것, Genie는 묻는 것, 에이전트는 행동하는 것"
 
 ### 이 모듈에서 사용하는 Databricks 기능
