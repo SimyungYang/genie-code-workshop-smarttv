@@ -2,6 +2,8 @@
 
 > **소요 시간**: ~1시간 | **사전 조건**: [02. 가상 데이터 생성](02-data-generation.md) 완료 (17개 Bronze 테이블 필요)
 >
+> **실습 환경**: Genie Code + AI Dev Kit MCP 연결 상태에서 진행합니다. 파이프라인 생성(`manage_pipeline`), Job 스케줄링(`manage_jobs`) 등에 MCP 도구를 활용합니다.
+>
 > **핵심 메시지**: "Raw 데이터를 신뢰할 수 있는 분석용 데이터로 바꾸는 과정을 자연어 한 줄로 자동화한다"
 
 ### 이 모듈에서 사용하는 Databricks 기능

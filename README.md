@@ -6,7 +6,7 @@ Databricks 환경에서 **Genie Code**와 **AI Dev Kit**을 활용한 Vibe Codin
 
 LG Smart TV webOS 텔레메트리 데이터를 기반으로, 자연어 프롬프트만으로 데이터 파이프라인부터 AI 에이전트까지 End-to-End로 구축합니다.
 
-> **학습 트랙**: 이 워크샵은 **Genie Code (Track C)** 전용입니다. 모든 실습을 Genie Code Agent Mode로 진행합니다.
+> **실습 환경**: 모든 실습을 **Genie Code Agent Mode + AI Dev Kit MCP**로 진행합니다. Genie Code로 코드를 생성/실행하고, AI Dev Kit MCP 도구로 Genie Space·대시보드·Job·Agent를 한 대화에서 통합 관리합니다.
 
 ---
 
